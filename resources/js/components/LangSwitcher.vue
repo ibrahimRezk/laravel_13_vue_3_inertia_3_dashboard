@@ -3,7 +3,7 @@
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import {  router  } from '@inertiajs/vue3';
 import { lang } from '@/routes';
-import {  computed, onUnmounted, ref } from 'vue';
+import {   onUnmounted, ref } from 'vue';
 import Button from './ui/button/Button.vue';
 import Dropdown from './Dropdown.vue';
 import DropdownLink from './DropdownLink.vue';
@@ -37,18 +37,14 @@ onUnmounted(() => {
 
 
 
-const direction = computed(() => {
-    if (document.getElementsByTagName("html")[0].getAttribute("lang") == "en")
-        return "left";
-    else return "right";
-});
+
 </script>
 <template>
    
                              <div class="relative flex items-center">
                                 <div class="sm:flex sm:items-center mx-1">
                                     <div class="relative">
-                                        <Dropdown :align="direction" width="36">
+                                        <Dropdown  width="36">
                                             <template #trigger>
                                                 <Button
                                                     variant="linear_black"

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import {  ref, watch } from 'vue';
 // import Button from './ui/button/Button.vue';
 import Dropdown from './Dropdown.vue';
 import DropdownLink from './DropdownLink.vue';
 
 import { router, usePage } from '@inertiajs/vue3';
 import { logout } from '@/routes';
-import {  LogOut } from 'lucide-vue-next';
+import { LogOut } from 'lucide-vue-next';
 
 // import {  Settings } from 'lucide-vue-next'; // this one has a different icon
-import {  Settings2 } from 'lucide-vue-next'; // this one has a different icon
+import { Settings2 } from 'lucide-vue-next'; // this one has a different icon
 
 import { edit as profileLink } from '@/routes/profile';
 
@@ -32,21 +32,18 @@ watch(
 
 const handleLogout = () => {
     // router.flushAll();
-    router.post(logout())
-
+    router.post(logout());
 };
 
-const direction = computed(() => {
-    if (document.getElementsByTagName('html')[0].getAttribute('lang') == 'en')
-        return 'left';
-    else return 'right';
-});
+
+
+
 </script>
 <template>
     <div class="relative flex items-center">
-        <div class=" sm:flex sm:items-center">
+        <div class="sm:flex sm:items-center">
             <div class="relative">
-                <Dropdown :align="direction" width="36">
+                <Dropdown width="36">
                     <template #trigger>
                         <span
                             class="inline-flex justify-center rounded-full align-middle transition hover:scale-110"
@@ -78,31 +75,29 @@ const direction = computed(() => {
                             @click="animate = false"
                             :href="profileLink()"
                         >
-                            <div class="flex items-start justify-start gap-2 w-full ">
-                                 <div class="my-auto">
-                                   <Settings2 class="mr-2 h-4 w-4" />
-                               </div>
-                                <div>
-                                    settings
+                            <div
+                                class="flex w-full items-start justify-start gap-2"
+                            >
+                                <div class="my-auto">
+                                    <Settings2 class="mr-2 h-4 w-4" />
                                 </div>
-                               
+                                <div>settings</div>
                             </div>
                         </DropdownLink>
 
                         <DropdownLink
                             as="button"
-                            class="border-t border-gray-700/20 dark:border-gray-200/10 "
+                            class="border-t border-gray-700/20 dark:border-gray-200/10"
                             @click="handleLogout"
                             data-test="logout-button"
                         >
-                            <div class="flex items-start justify-start gap-2 w-full ">
+                            <div
+                                class="flex w-full items-start justify-start gap-2"
+                            >
                                 <div class="my-auto">
                                     <LogOut class="mr-2 h-4 w-4" />
                                 </div>
-                                <div>
-                                   Log out
-                                </div>
-                                
+                                <div>Log out</div>
                             </div>
                         </DropdownLink>
                     </template>

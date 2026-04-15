@@ -6,10 +6,6 @@ const props = defineProps({
         type : Boolean, 
         default : false
     } ,
-    align: {
-        type: String,
-        default: 'right',
-    },
     width: {
         type: String,
         default: '48',
@@ -54,17 +50,7 @@ const widthClass = computed(() => {
     }[props.width.toString()];
 });
 
-const alignmentClasses = computed(() => {
-    if (props.align === 'right') {
-        return 'origin-top-left left-0';
-    }
 
-    if (props.align === 'left') {
-        return 'origin-top-right right-0';
-    }
-
-    return 'origin-top';
-});
 
 // const alignmentClasses = computed(() => {
 //     if (props.align === 'left') {
@@ -125,8 +111,8 @@ const closeDropdownAndScreenEffect = ()=>{
                 <div
          
                     v-show="open"
-                    class="absolute z-50 pt-2 rounded-md shadow-lg  py-"
-                    :class="[widthClass, alignmentClasses]"
+                    class="absolute z-50 pt-2 rounded-md shadow-lg  rtl:origin-top-left rtl:left-0 ltr:origin-top-right ltr:right-0"
+                    :class="[widthClass]"
                     style="display: none;"
                     @click="open = true"
                 >

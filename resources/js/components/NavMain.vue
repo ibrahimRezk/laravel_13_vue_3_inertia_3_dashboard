@@ -33,6 +33,7 @@ const props = defineProps<{
 
 
 import { storeToRefs } from 'pinia';
+import { onUnmounted } from 'vue';
 const useGeneral = useGeneralStore();
 const { animate } = storeToRefs(useGeneral);
 const { paginationNumber } = storeToRefs(useGeneral);
@@ -41,6 +42,8 @@ onMounted(() => {
     animate.value = true;
 });
 
+
+
 const startLeaveAnimation = () => {
     paginationNumber.value = page.props.paginationNumber;
     // paginationNumber.value = usePage().props.paginationNumber; // very important   its prevent call the page twice if we switch to another page  . check this part to move it to another place
@@ -48,16 +51,25 @@ const startLeaveAnimation = () => {
     
 };
 
-const current_lang = document
+const current_lang = ref(document
     .getElementsByTagName('html')[0]
-    .getAttribute('lang');
+    .getAttribute('lang'));
 
 
 const menus = ref<NavItem[]>(page.props.menus);
 
-router.on('finish' , ()=> {
+const removeStart =router.on('finish' , ()=> {
     menus.value = page.props.menus
+    current_lang.value =   document.getElementsByTagName('html')[0].getAttribute('lang')
+
 })
+
+onUnmounted(() => {
+    removeStart()
+})
+
+
+
 
 const slideActionName = ref<string>('');
 
@@ -76,15 +88,15 @@ const openCloseSubMenu = (activeMenu: NavItem) => {
 };
 
 router.on('finish' , ()=>{
-    prepairSidebarMenus()
+    handleSidebarMenus()
 })
 
 
 onMounted(() => {
-    prepairSidebarMenus()
+    handleSidebarMenus()
 });
 
-const prepairSidebarMenus = ()=> {
+const handleSidebarMenus = ()=> {
     menus.value.forEach((menu) => {
         if (menu.hasSubmenu) {
             menu.subMenus.forEach((submenu: NavItem) => {

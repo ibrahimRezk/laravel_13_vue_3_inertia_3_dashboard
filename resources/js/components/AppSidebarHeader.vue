@@ -20,7 +20,7 @@ withDefaults(
     <header>
 
     <div
-        class="flex h-12 shrink-0 items-center gap-2  px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:px-4  bg-linear-to-l from-black/70 via-black/70  dark:from-black/40 dark:via-black/40"
+        class="flex h-12 shrink-0 items-center gap-2  px-6 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12 md:px-4  rtl:bg-linear-to-l ltr:bg-linear-to-r from-black/70 via-black/70  dark:from-black/40 dark:via-black/40"
 
     >
         <div class="flex w-full justify-between gap-2 ">
