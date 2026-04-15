@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { router } from '@inertiajs/vue3'
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 
 // import {
@@ -21,20 +20,19 @@ import {
 
 // import { urlIsActive } from '@/lib/utils';
 import { type NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link, router, usePage } from '@inertiajs/vue3';
 
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 
 import { useGeneralStore } from '@/stores';
 const page = usePage();
 
-defineProps<{
+const props = defineProps<{
     items: NavItem[];
 }>();
 
 
 import { storeToRefs } from 'pinia';
-import { onUnmounted } from 'vue';
 const useGeneral = useGeneralStore();
 const { animate } = storeToRefs(useGeneral);
 const { paginationNumber } = storeToRefs(useGeneral);
@@ -43,37 +41,11 @@ onMounted(() => {
     animate.value = true;
 });
 
-// Fires on every Inertia page visit (including first load)
-// const removeListener = router.on('navigate', () => {
-//     animate.value = true
-// })
-
-// const removeListener = router.on('navigate' , ()=> {
-//     animate.value = true
-//     })
-
-// // Fires when clicking the same page link
-// const removeStart = router.on('finish', (event) => {
-//     const visitUrl = event.detail.visit.url.pathname
-//     const currentUrl = window.location.pathname
-    
-//     if (visitUrl === currentUrl) {
-//         animate.value = true
-//     }
-// })
-
-
-// // // Clean up when component is destroyed
-// onUnmounted(() => {
-//     removeListener()
-//     removeStart()
-// })
-
-
 const startLeaveAnimation = () => {
     paginationNumber.value = page.props.paginationNumber;
     // paginationNumber.value = usePage().props.paginationNumber; // very important   its prevent call the page twice if we switch to another page  . check this part to move it to another place
     animate.value = false;
+    
 };
 
 const current_lang = document
@@ -83,10 +55,15 @@ const current_lang = document
 
 const menus = ref<NavItem[]>(page.props.menus);
 
+router.on('finish' , ()=> {
+    menus.value = page.props.menus
+})
+
 const slideActionName = ref<string>('');
 
 const openCloseSubMenu = (activeMenu: NavItem) => {
     // activeMenu.isActive = true;
+
     if (activeMenu.hasSubmenu) {
         activeMenu.open = !activeMenu.open;
         menus.value.forEach((menu: NavItem) => {
@@ -98,7 +75,16 @@ const openCloseSubMenu = (activeMenu: NavItem) => {
     }
 };
 
+router.on('finish' , ()=>{
+    prepairSidebarMenus()
+})
+
+
 onMounted(() => {
+    prepairSidebarMenus()
+});
+
+const prepairSidebarMenus = ()=> {
     menus.value.forEach((menu) => {
         if (menu.hasSubmenu) {
             menu.subMenus.forEach((submenu: NavItem) => {
@@ -110,7 +96,7 @@ onMounted(() => {
             });
         }
     });
-});
+}
 
 const start = (el: HTMLElement): undefined => {
     el.style.height = el.scrollHeight + 'px';
@@ -124,7 +110,7 @@ const end = (el: HTMLElement): undefined => {
 <template>
     <perfectScrollbar class=" h-full">
         <SidebarMenu v-if="menus" >
-            <SidebarMenuItem v-for="item in items" :key="item.title">
+            <SidebarMenuItem v-for="item in menus" :key="item.title">
                 <div v-if="item.hasSubmenu">
                     <SidebarMenuButton
                     v-if="item.isVisible"
@@ -200,7 +186,7 @@ const end = (el: HTMLElement): undefined => {
                         @before-leave="start"
                         @after-leave="end"
                     >
-                        <div v-show="item.open" v-if="item?.subMenus?.length" >
+                        <div v-show="item.open " v-if="item?.subMenus?.length" >
                             <SidebarMenuSub class="dark:bg-transparent">
                                 <SidebarMenuSubItem
                                     v-for="subItem in item.subMenus"
@@ -243,7 +229,7 @@ const end = (el: HTMLElement): undefined => {
                                 : 'from-black/20 to-black/20'
                         "
                     >
-                        <Link :href="item.href" @click="startLeaveAnimation">
+                        <Link :href="item.href"  @click="startLeaveAnimation">
                             <component :is="item.icon" />
 
                         <span class="flex justify-between">

@@ -10,11 +10,11 @@ import TwoFactorRecoveryCodes from '@/components/TwoFactorRecoveryCodes.vue';
 import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
+import { usePageHeader } from '@/composables/usePageHeader';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { edit } from '@/routes/security';
 import { disable, enable } from '@/routes/two-factor';
-import { usePageHeader } from '@/composables/usePageHeader';
-import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
 
 type Props = {
     canManageTwoFactor?: boolean;
