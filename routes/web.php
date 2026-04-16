@@ -44,7 +44,7 @@ Route::middleware([
 
 
     Route::resource('admins', AdminController::class)->parameters(['admins' => 'user']);
-    Route::resource('roles', RolesController::class);
+    Route::resource('roles', RolesController::class)->only(['index' , 'create' , 'store' , 'edit' , 'update' , 'destroy']);
     Route::post('roles/attach-permission', AttachPermissionToRoleController::class)->name('roles.attach-permission');
     Route::post('roles/detach-permission', DetachPermissionFromRoleController::class)->name('roles.detach-permission');
 

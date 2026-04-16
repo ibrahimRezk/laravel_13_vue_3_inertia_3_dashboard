@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import Table from "@/components/Table/Table.vue";
-import Td from "@/components/Table/Td.vue";
-import {  attachPermission , detachPermission  } from '@/routes/roles'
+import { useHttp } from '@inertiajs/vue3';
+import { trans } from 'laravel-vue-i18n';
+import { computed, ref } from 'vue';
+import { toast } from 'vue3-toastify';
+import Table from '@/components/Table/Table.vue';
+import Td from '@/components/Table/Td.vue';
+import { attachPermission, detachPermission } from '@/routes/roles';
 
-import { trans } from "laravel-vue-i18n";
-import { toast } from "vue3-toastify";
-import "vue3-toastify/dist/index.css";
-
-
+import 'vue3-toastify/dist/index.css';
 
 interface permission {
     id: number;
-    name:string ;
-    permissions: string[]
-
+    name: string;
+    permissions: string[];
 }
 interface rolePermission {
     id: number;
-    name: string
+    name: string;
 }
-
 
 interface role {
     id?: number;
@@ -29,34 +26,26 @@ interface role {
         ar: string;
         en: string;
     };
-    permissions: rolePermission[]
+    permissions: rolePermission[];
 }
-
 
 interface Props {
-    item?: role; 
-    pagesPermissions?: permission[]  
-
+    item?: role;
+    pagesPermissions?: permission[];
 }
 
-
 const props = withDefaults(defineProps<Props>(), {
-
     item: () => ({
-       id: 0,
-       name: '',
+        id: 0,
+        name: '',
         slug: {
-        ar: '',
-        en: ''
-    },
-    permissions : []
+            ar: '',
+            en: '',
+        },
+        permissions: [],
     }),
-        pagesPermissions: () => ([]),
-
+    pagesPermissions: () => [],
 });
-
-
-
 
 // const props = defineProps({
 //     role: {
@@ -85,10 +74,10 @@ const roleHasPermission = (permission: number) => {
     return props.item.permissions.some((p) => p.id == permission);
 };
 const direction = ref(
-    document.getElementsByTagName("html")[0].getAttribute("dir")
+    document.getElementsByTagName('html')[0].getAttribute('dir'),
 );
 
-// const attachDeattachPermission = (event, permission) => {
+// const attachDetachPermission = (event, permission) => {
 //     if (event.target.checked == true) {
 //         axios
 //             .post(route("roles.attach-permission"), {
@@ -113,66 +102,124 @@ const direction = ref(
 //     }
 // };
 
+
+// const attachDetachPermission = (event: Event, permission: number | string): void => {
+//     // Cast the target to HTMLInputElement to access .checked
+//     const target = event.target as HTMLInputElement;
+//     const isChecked = target.checked;
+
+//     // Determine the route based on checkbox state
+//     const url = isChecked
+//         ? attachPermission().url
+//         : detachPermission().url;
+
+//     axios
+//         .post<ApiResponse>(url, {
+//             roleId: props.item.id,
+//             permissionId: permission,
+//             type: 1
+//         })
+//         .then((response) => {
+//             toastMethod(event, response.data);
+//         })
+//         .catch((error) => {
+//             console.log(error)
+//             // Optional: Handle network errors by reverting the UI state
+//             target.checked = !isChecked;
+//         });
+// };
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 interface ApiResponse {
     result: string;
     message: string;
 }
-
-const attachDeattachPermission = (event: Event, permission: number | string): void => {
-    // Cast the target to HTMLInputElement to access .checked
+const attachDetachPermission = async ( event: Event, permission: number | string, ): Promise<void> => {
+    // const http = useHttp({id: 1})
+    // const { post, processing, errors } = useHttp({
+    const { post } = useHttp({
+        roleId: props.item.id,
+        permissionId: permission,
+        type: 1,
+    });
     const target = event.target as HTMLInputElement;
     const isChecked = target.checked;
 
     // Determine the route based on checkbox state
-    const url = isChecked 
-        ? attachPermission().url
-        : detachPermission().url;
+    const url = isChecked ? attachPermission().url : detachPermission().url;
 
-    axios
-        .post<ApiResponse>(url, {
-            roleId: props.item.id,
-            permissionId: permission,
-            type: 1 
-        })
-        .then((response) => {
-            toastMethod(event, response.data);
-        })
-        .catch((error) => {
+    // let response = await http.get(test().url )
+    await post(url, {
+        onSuccess: (response) => {
+                // console.log(response)
+                toastMethod(event, response);
+            },
+            onError: (error) => {
             console.log(error)
             // Optional: Handle network errors by reverting the UI state
             target.checked = !isChecked;
-        });
+        },
+    });
 };
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+// //////////////////////////////////////////////////////////////////////////////////////////////////////
+// import { useHttp } from '@inertiajs/vue3';
+
+// const backendData = ref(null);
+// import { test } from '@/routes';
+
+// // const http = useHttp({id: 1})
+// const { get, processing, errors } = useHttp({ id: 1 });
+
+// const getDataFromBackend = async () => {
+//     // let response = await http.get(test().url )
+//     let response = await get(test().url, {
+//         preserveState: true,
+//         onSuccess: (response) => {
+//             console.log('Data received from backend:', response);
+//         },
+//         onError: (error) => {
+//             console.error('Error fetching data from backend:', error);
+//         },
+//     });
+//     backendData.value = response; // whatever your backend returns
+// };
+
+// //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const toastMethod = (event: Event, response: ApiResponse): void => {
     const target = event.target as HTMLInputElement;
 
-    if (response.result !== "error") {
+    if (response.result !== 'error') {
         toast(trans(`general.${response.message}`), {
             type: toast.TYPE.SUCCESS,
             autoClose: 2500,
-            theme: "colored",
-            position: direction.value === "ltr"
-                ? toast.POSITION.TOP_RIGHT
-                : toast.POSITION.TOP_LEFT,
-            rtl: direction.value !== "ltr",
-            transition: "bounce",
+            theme: 'colored',
+            position:
+                direction.value === 'ltr'
+                    ? toast.POSITION.TOP_RIGHT
+                    : toast.POSITION.TOP_LEFT,
+            rtl: direction.value !== 'ltr',
+            transition: 'bounce',
             hideProgressBar: false,
             pauseOnHover: true,
         });
     } else {
         // Revert the checkbox state if the backend returned an error
         target.checked = !target.checked;
-        
+
         toast(trans(`general.something goes wrong`), {
             type: toast.TYPE.ERROR,
             autoClose: 2500,
-            theme: "colored",
-            position: direction.value === "ltr"
-                ? toast.POSITION.TOP_RIGHT
-                : toast.POSITION.TOP_LEFT,
-            rtl: direction.value !== "ltr",
-            transition: "bounce",
+            theme: 'colored',
+            position:
+                direction.value === 'ltr'
+                    ? toast.POSITION.TOP_RIGHT
+                    : toast.POSITION.TOP_LEFT,
+            rtl: direction.value !== 'ltr',
+            transition: 'bounce',
             hideProgressBar: false,
             pauseOnHover: true,
         });
@@ -214,54 +261,53 @@ const toastMethod = (event: Event, response: ApiResponse): void => {
 // };
 
 const headers = [
-    { name: "#", label: "#" },
-    { name: "name", label: "page name" },
+    { name: '#', label: '#' },
+    { name: 'name', label: 'page name' },
     {
-        name: "view",
-        label: "view",
+        name: 'view',
+        label: 'view',
     },
     {
-        name: "create",
-        label: "create",
+        name: 'create',
+        label: 'create',
     },
     {
-        name: "edit",
-        label: "edit",
+        name: 'edit',
+        label: 'edit',
     },
     {
-        name: "delete",
-        label: "delete",
+        name: 'delete',
+        label: 'delete',
     },
     {
-        name: "approve",
-        label: "approve",
+        name: 'approve',
+        label: 'approve',
     },
     {
-        name: "close",
-        label: "close",
+        name: 'close',
+        label: 'close',
     },
     {
-        name: "cancel",
-        label: "cancel",
+        name: 'cancel',
+        label: 'cancel',
     },
     {
-        name: "print",
-        label: "print",
+        name: 'print',
+        label: 'print',
     },
 ];
 // const specialPermissionsheaders = [
 //     { name: "#", label: "#" },
 //     { name: "name", label: "permission name" },
-   
+
 //     {
 //         name: "select",
 //         label: "select",
 //     },
 // ];
 
-
 const checkboxClasses = computed(() => {
-    return "rounded text-yellow-600 border-gray-300 shadow-sm focus:ring-indigo-500";
+    return 'rounded text-yellow-600 border-gray-300 shadow-sm focus:ring-indigo-500';
 });
 // const animate = ref(true);
 // const startLeaveAnimation = () => {
@@ -272,157 +318,147 @@ const checkboxClasses = computed(() => {
 <template>
     <!-- <hr class="h-px bg-white bg-gradient-horizontal-dark mt-2" /> -->
 
-
     <Table
-    :headers="headers"
-    :items="props.pagesPermissions"
-    noCheckAll
-    tableHeight="customtableheight"
-            noPagination
-            noNamePadding
-            class="mt-2 "
-            bodyClasses=" rounded-null"
-        >
-            <template #title>
-                {{ $t("general.permissions") }}
-            </template>
-            <template v-slot="{ item, index }">
-                <!-- //////////////////////////checked row item///////////////////////// -->
-    
-                <!-- ///////////////////////////////////////////////////// -->
-                <Td light>
-                    {{ index + 1 }}
-                </Td>
-    
-                <Td light>
+        :headers="headers"
+        :items="props.pagesPermissions"
+        noCheckAll
+        tableHeight="customtableheight"
+        noPagination
+        noNamePadding
+        class="mt-2"
+        bodyClasses=" rounded-null"
+    >
+        <template #title>
+            {{ $t('general.permissions') }}
+        </template>
+        <template v-slot="{ item, index }">
+            <!-- //////////////////////////checked row item///////////////////////// -->
 
-                    <div class="flex min-w-36">
-                        {{ item.name }}
-                    </div>
-                </Td>
-    
-               <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['view']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['view']"
-                        :disabled="item.permissions['view'] == null"
-                        :checked="roleHasPermission(item.permissions['view'])"
-                    />
-                </Td>
-                 <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['create']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['create']"
-                        :disabled="item.permissions['create'] == null"
-                        :checked="roleHasPermission(item.permissions['create'])"
-                    />
-                </Td>
-                <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['edit']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['edit']"
-                        :disabled="item.permissions['edit'] == null"
-                        :checked="roleHasPermission(item.permissions['edit'])"
-                    />
-                </Td>
-                <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['delete']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['delete']"
-                        :disabled="item.permissions['delete'] == null"
-                        :checked="roleHasPermission(item.permissions['delete'])"
-                    />
-                </Td>
-                <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['approve']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['approve']"
-                        :disabled="item.permissions['approve'] == null"
-                        :checked="roleHasPermission(item.permissions['approve'])"
-                    />
-                </Td>
-                <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['close']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['close']"
-                        :disabled="item.permissions['close'] == null"
-                        :checked="roleHasPermission(item.permissions['close'])"
-                    />
-                </Td>
-                <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['cancel']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['cancel']"
-                        :disabled="item.permissions['cancel'] == null"
-                        :checked="roleHasPermission(item.permissions['cancel'])"
-                    />
-                </Td>
-                <Td light>
-                    <input
-                        @change="
-                            attachDeattachPermission(
-                                $event,
-                                item.permissions['print']
-                            )
-                        "
-                        :class="checkboxClasses"
-                        type="checkbox"
-                        v-show="item.permissions['print']"
-                        :disabled="item.permissions['print'] == null"
-                        :checked="roleHasPermission(item.permissions['print'])"
-                    />
-                </Td>
-            </template>
-        </Table>
+            <!-- ///////////////////////////////////////////////////// -->
+            <Td light>
+                {{ index + 1 }}
+            </Td>
 
+            <Td light>
+                <div class="flex min-w-36">
+                    {{ item.name }}
+                </div>
+            </Td>
 
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission($event, item.permissions['view'])
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['view']"
+                    :disabled="item.permissions['view'] == null"
+                    :checked="roleHasPermission(item.permissions['view'])"
+                />
+            </Td>
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission(
+                            $event,
+                            item.permissions['create'],
+                        )
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['create']"
+                    :disabled="item.permissions['create'] == null"
+                    :checked="roleHasPermission(item.permissions['create'])"
+                />
+            </Td>
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission($event, item.permissions['edit'])
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['edit']"
+                    :disabled="item.permissions['edit'] == null"
+                    :checked="roleHasPermission(item.permissions['edit'])"
+                />
+            </Td>
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission(
+                            $event,
+                            item.permissions['delete'],
+                        )
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['delete']"
+                    :disabled="item.permissions['delete'] == null"
+                    :checked="roleHasPermission(item.permissions['delete'])"
+                />
+            </Td>
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission(
+                            $event,
+                            item.permissions['approve'],
+                        )
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['approve']"
+                    :disabled="item.permissions['approve'] == null"
+                    :checked="roleHasPermission(item.permissions['approve'])"
+                />
+            </Td>
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission(
+                            $event,
+                            item.permissions['close'],
+                        )
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['close']"
+                    :disabled="item.permissions['close'] == null"
+                    :checked="roleHasPermission(item.permissions['close'])"
+                />
+            </Td>
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission(
+                            $event,
+                            item.permissions['cancel'],
+                        )
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['cancel']"
+                    :disabled="item.permissions['cancel'] == null"
+                    :checked="roleHasPermission(item.permissions['cancel'])"
+                />
+            </Td>
+            <Td light>
+                <input
+                    @change="
+                        attachDetachPermission(
+                            $event,
+                            item.permissions['print'],
+                        )
+                    "
+                    :class="checkboxClasses"
+                    type="checkbox"
+                    v-show="item.permissions['print']"
+                    :disabled="item.permissions['print'] == null"
+                    :checked="roleHasPermission(item.permissions['print'])"
+                />
+            </Td>
+        </template>
+    </Table>
 </template>

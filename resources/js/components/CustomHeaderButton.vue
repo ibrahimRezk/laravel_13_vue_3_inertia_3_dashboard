@@ -34,16 +34,15 @@ const contentClasses = ref<string[]>([
     'py-2 rtl:bg-linear-to-r ltr:bg-linear-to-l from-orange-600 to-gray-900',
 ]);
 
-// 4. Computed logic with basic safety check
-const direction = computed((): 'right' | 'left' => {
-    const htmlLang = document.getElementsByTagName('html')[0]?.getAttribute('lang');
-    return htmlLang === 'ar' ? 'right' : 'left';
-});
+// // 4. Computed logic with basic safety check
+// const direction = computed((): 'right' | 'left' => {
+//     const htmlLang = document.getElementsByTagName('html')[0]?.getAttribute('lang');
+//     return htmlLang === 'ar' ? 'right' : 'left';
+// });
 </script>
 
 <template>
     <Dropdown
-        :align="direction"
         :width="props.width"
         :keepOpened="props.keepOpened"
         :contentClasses="props.showTitle ? contentClasses.join(' ') : ''"

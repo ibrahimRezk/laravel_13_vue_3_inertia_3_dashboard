@@ -28,17 +28,17 @@ class AttachPermissionToRoleController extends Controller implements HasMiddlewa
 
     public function __invoke(Request $request)
     {
-        // return $request;
         try {
             DB::beginTransaction();
             $role = Role::find($request->roleId);
             if($role->name == 'Super Admin')
-            {
-                abort(403 , 'error');
-            }
-            $permission = Permission::findById($request->permissionId);
-
-
+                {
+                    abort(403 , 'error');
+                    }
+                    // return $request;
+                    $permission = Permission::findById($request->permissionId);
+                    
+                    
             if ($permission != null)
                 if ($request->type == 1) // normal permission to be assigned to a role
                 {
