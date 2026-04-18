@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -44,6 +45,10 @@ class AppServiceProvider extends ServiceProvider
         DB::prohibitDestructiveCommands(
             app()->isProduction(),
         );
+
+
+        // to prevent user from trying to send fields not in form validation
+        // FormRequest::failOnUnknownFields();  /// this feature is not working fine yet 
 
         Password::defaults(fn (): ?Password => app()->isProduction()
             ? Password::min(12)

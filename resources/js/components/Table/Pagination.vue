@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { storeToRefs } from 'pinia';
-import { useGeneralStore } from '@/stores';
+import { ref, onMounted, watch } from 'vue';
 import {
     Select,
     SelectContent,
@@ -12,6 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useGeneralStore } from '@/stores';
 
 interface Link {
     label: string;
@@ -44,6 +44,7 @@ const urlLink = ref({ url: window.location.href.split('?')[0], label: 'current',
 
 onMounted(() => {
     const paramVal = searchParams.get('paginationNumber');
+
     if (paramVal) {
         paginationNumber.value = parseInt(paramVal);
     } else if (usePage().props.paginationNumber) {
@@ -52,7 +53,10 @@ onMounted(() => {
 });
 
 function goToUrl(link: Link) {
-    if (!link.url) return;
+
+    if (!link.url){
+        return
+    }
 
     const isDefaultPagination = usePage().props.paginationNumber == paginationNumber.value;
     

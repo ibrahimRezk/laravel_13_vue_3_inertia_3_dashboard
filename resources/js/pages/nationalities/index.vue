@@ -1,12 +1,31 @@
 <script setup lang="ts">
+import { Form, Head, useForm } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
 import NationalityController from '@/actions/App/Http/Controllers/NationalityController';
-import { index, store, update, destroy } from '@/routes/nationalities';
 import AddNew from '@/components/AddNew.vue';
+import AlertDialog from '@/components/AlertDialog.vue';
+import Checkbox from '@/components/Checkbox.vue';
+import Container from '@/components/Container.vue';
+import CustomHeaderButton from '@/components/CustomHeaderButton.vue';
+import DialogModal from '@/components/DialogModal.vue';
+import InputError from '@/components/InputError.vue';
+import Actions from '@/components/Table/Actions.vue';
+import Table from '@/components/Table/Table.vue';
+import Td from '@/components/Table/Td.vue';
 import { Button } from '@/components/ui/button';
+import DialogFooter from '@/components/ui/dialog/DialogFooter.vue';
 import { Input } from '@/components/ui/input';
-import AppLayout from '@/layouts/AppLayout.vue';
-import {
-    type header,
+import { Label } from '@/components/ui/label';
+import Spinner from '@/components/ui/spinner/Spinner.vue';
+import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
+import useDeleteItem from '@/composables/useDeleteItem';
+import useFilters from '@/composables/useFilters.js';
+import useHeaders from '@/composables/useHeaders.js';
+import { useModal } from '@/composables/useModal';
+import { usePageHeader } from '@/composables/usePageHeader';
+import { index, store, update, destroy } from '@/routes/nationalities';
+import type {
+    header,
     meta,
     links,
     // BreadcrumbItem,
@@ -14,33 +33,13 @@ import {
     permissions,
     filtersValuesDataType,
 } from '@/types';
-import { Form, Head, useForm } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
 import Filters from './Filters.vue';
 // import CustomHeaderButton from "@/components/CustomHeaderButton.vue";
-import Container from '@/components/Container.vue';
-import DialogModal from '@/components/DialogModal.vue';
-import Actions from '@/components/Table/Actions.vue';
-import Table from '@/components/Table/Table.vue';
-import Td from '@/components/Table/Td.vue';
-import { Label } from '@/components/ui/label';
 // import Label from "@/components/Label.vue";
-import Checkbox from '@/components/Checkbox.vue';
-import CustomHeaderButton from '@/components/CustomHeaderButton.vue';
-import useFilters from '@/composables/useFilters.js';
-import useHeaders from '@/composables/useHeaders.js';
 
 ////////////////////////////////
-import InputError from '@/components/InputError.vue';
 // import Checkbox from '@/components/ui/checkbox/Checkbox.vue';
-import DialogFooter from '@/components/ui/dialog/DialogFooter.vue';
-import Spinner from '@/components/ui/spinner/Spinner.vue';
-import AlertDialog from '@/components/AlertDialog.vue';
-import useDeleteItem from '@/composables/useDeleteItem';
 // import EditProfileForm from './EditProfileForm.vue'
-import { useModal } from '@/composables/useModal';
-import { usePageHeader } from '@/composables/usePageHeader';
-import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
 
 const { open, isOpen } = useModal();
 

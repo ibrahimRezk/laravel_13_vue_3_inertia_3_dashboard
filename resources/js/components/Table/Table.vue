@@ -4,15 +4,14 @@ import { computed, onMounted, ref, watch } from 'vue';
 import Checkbox from '@/components/Checkbox.vue';
 import Pagination from '@/components/Table/Pagination.vue';
 import Td from '@/components/Table/Td.vue';
-import { TableProps } from '@/types';
 import Th from '@/components/Table/Th.vue';
 // import { emit } from "process";
 
 import { useGeneralStore } from '@/stores';
+import type { TableProps } from '@/types';
+import type { Link } from '@/types';
 const useGeneral = useGeneralStore();
 const { animate } = storeToRefs(useGeneral);
-
-
 
 // const props = defineProps({
 //     headers: {
@@ -79,25 +78,43 @@ const { animate } = storeToRefs(useGeneral);
 // });
 
 const props = withDefaults(defineProps<TableProps>(), {
-  headers: () => [],
-  items: () => ({}),
-  headersClasses: '',
-  headerFooterClasses: '',
-  trClasses: '',
-  bodyClasses: '',
-  hoverClasses: '',
-  noCheckAll: false,
-  checkedAllButton: false,
-  noNamePadding: false,
-  withAxios: false,
-  noPagination: false,
-  has_extra_final_row: false,
-  showPaginationNumber: true,
-  tableHeight: '',
+    headers: () => [],
+    items: () => ({}),
+    headersClasses: '',
+    headerFooterClasses: '',
+    trClasses: '',
+    bodyClasses: '',
+    hoverClasses: '',
+    noCheckAll: false,
+    checkedAllButton: false,
+    noNamePadding: false,
+    withAxios: false,
+    noPagination: false,
+    has_extra_final_row: false,
+    showPaginationNumber: true,
+    tableHeight: '',
 });
 
 onMounted(() => {
     animate.value = true;
+});
+
+const normalizedItems = computed(() => {
+    if (!props.items) {
+        return [];
+    }
+
+    return Array.isArray(props.items) ? props.items : props.items.data;
+});
+
+
+
+const itemsLinks = computed(() => {
+  if (!props.items || Array.isArray(props.items)){
+return [];
+  } 
+
+  return (props.items.meta?.links ?? []) as Link[];
 });
 
 
@@ -144,7 +161,7 @@ const theheaderFooterClasses = computed(() => {
 //     }`;
 // };
 
-const theTrClasses = (index: number) => {
+const theTrClasses = (index: number): string => {
     return ` ${
         index % 2 === 0
             ? ' rtl:bg-linear-to-r ltr:bg-linear-to-l from-orange-300 to-black/80 dark:from-zinc-900 dark:via-gray-800 dark:to-zinc-900 rtl:hover:bg-linear-to-r ltr:hover:bg-linear-to-l    rounded-none hover:dark:from-zinc-800 hover:dark:to-gray-600 hover:from-orange-300/90 hover:to-black/80' +
@@ -258,7 +275,7 @@ const headerTextColor = (index: number) => {
                                                     !noNamePadding
                                                 "
                                                 class="mx-12 text-wrap"
-                                                :class="`${props.headersClasses}  ${headerTextColor(index)}`"
+                                                :class="`${props.headersClasses} ${headerTextColor(index)}`"
                                             >
                                                 {{
                                                     $t(
@@ -291,13 +308,17 @@ const headerTextColor = (index: number) => {
                                         <!-- :class="`${theHoverClasses} ${index%2 === 1 ? 'from-orange-200 dark:from-zinc-800 dark:via-gray-900 dark:to-zinc-800 to-zinc-900' : ''}`" -->
 
                                         <tr
-                                            v-for="(item, index) in items"
-                                            :class="theTrClasses(index)"
+                                            :class="
+                                                theTrClasses(index as number)
+                                            "
+                                            v-for="(
+                                                item, index
+                                            ) in normalizedItems"
                                             :key="index"
                                         >
                                             <slot
                                                 :item="item"
-                                                :index="index"
+                                                :index="index as number"
                                             ></slot>
 
                                             <slot
@@ -306,7 +327,9 @@ const headerTextColor = (index: number) => {
                                                 :index="1"
                                             ></slot>
                                         </tr>
-                                        <tr v-if="items?.length === 0">
+                                        <tr
+                                            v-if="normalizedItems?.length === 0"
+                                        >
                                             <Td :colspan="headers.length + 1">
                                                 {{
                                                     $t(
@@ -323,14 +346,17 @@ const headerTextColor = (index: number) => {
 
                                     <tbody v-else :class="props.bodyClasses">
                                         <tr
-                                            class=" "
-                                            :class="theTrClasses(index)"
-                                            v-for="(item, index) in items.data"
+                                            :class="
+                                                theTrClasses(index as number)
+                                            "
+                                            v-for="(
+                                                item, index
+                                            ) in normalizedItems"
                                             :key="index"
                                         >
                                             <slot
                                                 :item="item"
-                                                :index="index"
+                                                :index="index as number"
                                             ></slot>
 
                                             <slot
@@ -339,7 +365,10 @@ const headerTextColor = (index: number) => {
                                                 :index="1"
                                             ></slot>
                                         </tr>
-                                        <tr v-if="items.data?.length === 0">
+
+                                        <tr
+                                            v-if="normalizedItems?.length === 0"
+                                        >
                                             <Td :colspan="headers.length + 1">
                                                 {{
                                                     $t(
@@ -364,7 +393,7 @@ const headerTextColor = (index: number) => {
                                                 startLeaveAnimation
                                             "
                                             @callAxiosUrl="callAxiosUrl"
-                                            :links="items?.meta?.links"
+                                            :links="itemsLinks"
                                             :withAxios="props.withAxios"
                                             :showPaginationNumber="
                                                 props.showPaginationNumber

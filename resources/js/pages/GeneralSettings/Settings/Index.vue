@@ -563,14 +563,16 @@ const theadClass = computed(() => {
                 </Card>
                 <div
                     v-show="save_changes_button"
-                    class="my-2 flex justify-center bg-linear-to-l via-orange-950"
+                    class="my-2 bg-linear-to-l via-black "
                 >
+                <div class="flex justify-center bg-linear-to-l via-sky-950/30" >
                     <Button
                         @click="submit()"
                         class="text-md items-center rounded-full px-6 hover:cursor-pointer"
                         variant="linear_orange"
                         >{{ $t('general.save changes') }}</Button
                     >
+                </div>
                 </div>
         </Container>
     <!-- </AppLayout> -->

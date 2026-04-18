@@ -1,5 +1,5 @@
-import { RouteDefinition } from '@/wayfinder';
-import type { LucideIcon } from 'lucide-vue-next';
+import type { RouteDefinition } from '@/wayfinder';
+// import type { LucideIcon } from 'lucide-vue-next';
 
 
 
@@ -11,7 +11,9 @@ export * from './ui';
 
 
 
-
+export interface Auth {
+    user: User;
+}
 
 
 export interface BreadcrumbItem {
@@ -33,7 +35,7 @@ export type AppPageProps<
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
-    menus: Array;
+    menus: Record<string, any>[];
     sidebarOpen: boolean;
     paginationNumber: number;
     messages: object;
@@ -59,9 +61,20 @@ interface tableHeader {
     name: string,
     label:string
 }
+
+export interface Link {
+  url: string | null;
+  label: string;
+  active: boolean;
+}
+
 export interface TableProps { // new
   headers?: tableHeader[]; // Ideally, replace 'any' with a specific interface for your header
-  items?: Record<string, number | any>;
+
+ items?: Record<string, any> ;
+    // items?: Record<string, number | any>;
+
+
   headersClasses?: string;
   headerFooterClasses?: string;
   trClasses?: string;
