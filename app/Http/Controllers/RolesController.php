@@ -65,7 +65,8 @@ class RolesController extends Controller implements HasMiddleware
 
         return Inertia::render('AdminsAndRoles/Roles/Index', [
 
-            'title' => 'roles and permissions',
+            'title' => 'roles',
+            // 'title' => 'roles and permissions',
             'items' => RoleResource::collection($roles),
             'headers' => [
                 [
