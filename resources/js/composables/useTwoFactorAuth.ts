@@ -85,38 +85,17 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         }
     };
 
-    // const fetchSetupData = async (): Promise<void> => {
-    //     try {
-    //         clearErrors();
-    //         await Promise.all([fetchQrCode(), fetchSetupKey()]);
-    //     } catch {
-    //         qrCodeSvg.value = null;
-    //         manualSetupKey.value = null;
-    //     }
-    // };
-
     const fetchSetupData = async (): Promise<void> => {
-    clearErrors();
-
-    const attempt = async (): Promise<void> => {
-        await Promise.all([fetchQrCode(), fetchSetupKey()]);
-    };
-
-    try {
-        await attempt();
-    } catch {
-        // First attempt failed (likely a race on first enable), retry once
-        clearErrors();
-        await new Promise((r) => setTimeout(r, 500));
-        
         try {
-            await attempt();
+            clearErrors();
+            await Promise.all([fetchQrCode(), fetchSetupKey()]);
         } catch {
             qrCodeSvg.value = null;
             manualSetupKey.value = null;
         }
-    }
-};
+    };
+
+
 
 
     return {

@@ -1,7 +1,7 @@
 import { router, usePage } from '@inertiajs/vue3';
+import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 import { useGeneralStore } from '@/stores';
-import { storeToRefs } from 'pinia';
 
 // Define the Wayfinder Route Type
 interface WayfinderRoute {
@@ -80,6 +80,7 @@ export default function useFilters(params: FilterParams) {
                     
                     // Safely update menu state
                     const props = usePage().props as any;
+                    
                     if (props.menus) {
                         props.menus.forEach((menu: Menu) => {
                             menu.open = menu.isActive;
