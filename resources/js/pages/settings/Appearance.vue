@@ -2,9 +2,9 @@
 import { Head } from '@inertiajs/vue3';
 import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import Heading from '@/components/Heading.vue';
-import { edit } from '@/routes/appearance';
-import { usePageHeader } from '@/composables/usePageHeader';
 import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
+import { usePageHeader } from '@/composables/usePageHeader';
+import { edit } from '@/routes/appearance';
 
 
 const { header } = usePageHeader();

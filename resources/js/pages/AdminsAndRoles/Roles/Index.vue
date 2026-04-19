@@ -1,51 +1,12 @@
 <script setup lang="ts">
-// import { ref, computed, watch, onMounted } from "vue";
-// import { Head, useForm, Link } from "@inertiajs/vue3";
-// import { router } from "@inertiajs/vue3";
-// import useHeaders from "@/composables/useHeaders.js";
-// import Layout from "@/Layouts/Authenticated.vue";
-// import BreadCrumbs from "@/components/BreadCrumbs.vue";
-// import Container from "@/components/Container.vue";
-// import Card from "@/components/Card/Card.vue";
-// import Table from "@/components/Table/Table.vue";
-// import Td from "@/components/Table/Td.vue";
-// import Actions from "@/components/Table/Actions.vue";
-// import Button from "@/components/Button.vue";
-// import Modal from "@/components/ConfirmationModal.vue";
-// import Label from "@/components/Label.vue";
-// import Input from "@/components/Input.vue";
-// import AddNew from "@/components/AddNew.vue";
-// import CustomHeaderButton from "@/components/CustomHeaderButton.vue";
-
-// import useDeleteItem from "@/composables/useDeleteItem.js";
-// import useFilters from "@/composables/useFilters.js";
-// import InputGroup from "@/components/InputGroup.vue";
-
-
-
-//////////////////////////////////////////////////////////////////////////////////////
-import RolesController from '@/actions/App/Http/Controllers/RolesController';
-import {index ,  create ,  edit as editRole ,  destroy } from '@/routes/roles'
-import AddNew from '@/components/AddNew.vue';
-import { Input } from '@/components/ui/input';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type header ,
-    //  BreadcrumbItem    ,
-     permissions , links , meta  } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 import {ref , watch} from 'vue';
+import RolesController from '@/actions/App/Http/Controllers/RolesController';
+import AddNew from '@/components/AddNew.vue';
 // import CustomHeaderButton from "@/components/CustomHeaderButton.vue";
-import Container from '@/components/Container.vue';
 // import DialogModal from '@/components/DialogModal.vue';
-import Actions from '@/components/Table/Actions.vue';
-import Table from '@/components/Table/Table.vue';
-import Td from '@/components/Table/Td.vue';
-import { Label } from '@/components/ui/label';
 // import Label from "@/components/Label.vue";
 // import Checkbox from '@/components/Checkbox.vue';
-import CustomHeaderButton from '@/components/CustomHeaderButton.vue';
-import useFilters from '@/composables/useFilters.js';
-import useHeaders from '@/composables/useHeaders.js';
 
 ////////////////////////////////
 // import InputError from '@/components/InputError.vue';
@@ -53,18 +14,31 @@ import useHeaders from '@/composables/useHeaders.js';
 // import DialogFooter from '@/components/ui/dialog/DialogFooter.vue';
 // import Spinner from '@/components/ui/spinner/Spinner.vue';
 import AlertDialog from '@/components/AlertDialog.vue';
-import useDeleteItem from '@/composables/useDeleteItem';
+import Container from '@/components/Container.vue';
+import CustomHeaderButton from '@/components/CustomHeaderButton.vue';
+import Actions from '@/components/Table/Actions.vue';
+import Table from '@/components/Table/Table.vue';
+import Td from '@/components/Table/Td.vue';
 import { Button } from '@/components/ui/button';
-import { usePageHeader } from '@/composables/usePageHeader';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
-// import EditProfileForm from './EditProfileForm.vue'
-// import { useModal } from '@/composables/useModal';
-
-// const { open , isOpen  } = useModal();
-
-// function fireshowDialogModal() {
-//     // function handleEdit() {
-//     editMode.value = false;
+import useDeleteItem from '@/composables/useDeleteItem';
+import useFilters from '@/composables/useFilters.js';
+import useHeaders from '@/composables/useHeaders.js';
+import { usePageHeader } from '@/composables/usePageHeader';
+import {index ,  create ,  edit as editRole ,  destroy } from '@/routes/roles'
+import type {  header ,
+    //  BreadcrumbItem    ,
+    permissions , links , meta  } from '@/types';
+    // import EditProfileForm from './EditProfileForm.vue'
+    // import { useModal } from '@/composables/useModal';
+    
+    // const { open , isOpen  } = useModal();
+    
+    // function fireshowDialogModal() {
+        //     // function handleEdit() {
+            //     editMode.value = false;
 //     open();
 // }
 

@@ -52,7 +52,7 @@ const user = computed(() => page.props.auth.user);
         >
             <div class="grid gap-2">
                 <Label for="name">Name</Label>
-                <Input
+                <!-- <Input
                     id="name"
                     class="mt-1 block w-full"
                     name="name"
@@ -60,7 +60,7 @@ const user = computed(() => page.props.auth.user);
                     required
                     autocomplete="name"
                     placeholder="Full name"
-                />
+                /> -->
                 <InputError class="mt-2" :message="errors.name" />
             </div>
 

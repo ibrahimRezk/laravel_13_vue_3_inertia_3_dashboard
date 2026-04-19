@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { Form, Head, router, useForm } from '@inertiajs/vue3';
+import { ref, watch } from 'vue';
+import AdminController from '@/actions/App/Http/Controllers/AdminController';
 import AddNew from '@/components/AddNew.vue';
+import AlertDialog from '@/components/AlertDialog.vue';
+import Checkbox from '@/components/Checkbox.vue';
 import Container from '@/components/Container.vue';
 import CustomHeaderButton from '@/components/CustomHeaderButton.vue';
 import DialogModal from '@/components/DialogModal.vue';
@@ -7,39 +12,9 @@ import InputError from '@/components/InputError.vue';
 import Actions from '@/components/Table/Actions.vue';
 import Table from '@/components/Table/Table.vue';
 import Td from '@/components/Table/Td.vue';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import useHeaders from '@/composables/useHeaders.js';
-import { Form, Head, router, useForm } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
-import Filters from './Filters.vue';
-import AlertDialog from '@/components/AlertDialog.vue';
-import Checkbox from '@/components/Checkbox.vue';
 import { Button } from '@/components/ui/button';
 import DialogFooter from '@/components/ui/dialog/DialogFooter.vue';
-import Spinner from '@/components/ui/spinner/Spinner.vue';
-import useDeleteItem from '@/composables/useDeleteItem.js';
-import useFilters from '@/composables/useFilters.js';
-import { useModal } from '@/composables/useModal';
-import AppLayout from '@/layouts/AppLayout.vue';
-import {
-    destroy,
-    index,
-    show as showAdmin,
-    store,
-    update,
-} from '@/routes/admins';
-import {
-    type header,
-    // BreadcrumbItem,
-    fillFormType,
-    filtersValuesDataType,
-    meta,
-    links,
-    permissions,
-} from '@/types';
-
-import AdminController from '@/actions/App/Http/Controllers/AdminController';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -49,8 +24,31 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner/Spinner.vue';
 import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
+import useDeleteItem from '@/composables/useDeleteItem.js';
+import useFilters from '@/composables/useFilters.js';
+import useHeaders from '@/composables/useHeaders.js';
+import { useModal } from '@/composables/useModal';
 import { usePageHeader } from '@/composables/usePageHeader';
+import {
+    destroy,
+    index,
+    show as showAdmin,
+    store,
+    update,
+} from '@/routes/admins';
+import type {
+     header,
+    // BreadcrumbItem,
+    fillFormType,
+    filtersValuesDataType,
+    meta,
+    links,
+    permissions,
+} from '@/types';
+import Filters from './Filters.vue';
+
 
 // import {
 //     Listbox,

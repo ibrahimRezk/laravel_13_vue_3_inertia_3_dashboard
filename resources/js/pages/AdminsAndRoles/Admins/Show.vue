@@ -283,7 +283,7 @@ const attachDetachPermission = async ( event: Event, permission: number | string
     await post(url, {
         onSuccess: (response) => {
                 // console.log(response)
-                toastMethod(event, response);
+                toastMethod(event, response as ApiResponse);
             },
             onError: (error) => {
             console.log(error)
@@ -398,7 +398,6 @@ const animate = ref(true);
         <Card class="mx-1" no-padding>
             <table :class="TableClasses">
                 <thead :class="TheadClasses">
-                    <div>
                         <tr :class="mainTrClasses">
                             <th :class="mainThClasses">
                                 {{ $t('general.name') }}
@@ -419,8 +418,6 @@ const animate = ref(true);
                                 </span>
                             </td>
                         </tr>
-                    </div>
-                    <div>
                         <tr :class="mainTrClasses">
                             <th :class="mainThClasses">
                                 {{ $t('general.phone') }}
@@ -456,8 +453,7 @@ const animate = ref(true);
                                 </span>
                             </td>
                         </tr>
-                    </div>
-                    <div>
+               
                         <tr :class="mainTrClasses">
                             <th :class="mainThClasses">
                                 {{ $t('general.created_at') }}
@@ -479,7 +475,6 @@ const animate = ref(true);
                                 </span>
                             </td>
                         </tr>
-                    </div>
                 </thead>
             </table>
         </Card>

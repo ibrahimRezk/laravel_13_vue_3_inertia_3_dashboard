@@ -44,7 +44,7 @@ export type AppPageProps<
 
 interface name {
     ar: string,
-    en: string
+    en: any
 }
 export interface User {
     id: number;

@@ -15,6 +15,7 @@ import { usePageHeader } from '@/composables/usePageHeader';
 
 import { edit } from '@/routes/profile';
 import { send } from '@/routes/verification';
+import type { User } from '@/types/auth';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -46,7 +47,9 @@ breadcrumbs.value = [
 //     },
 // });
 const page = usePage();
-const user = ref(page.props.auth.user);
+const user = ref<User>(page.props.auth.user);
+
+console.log(page.props)
 
 watch(
     () => page.props.auth.user,
@@ -84,7 +87,9 @@ const selectNewPhoto = () => {
 const updatePhotoPreview = () => {
     const photo = photoInput.value?.files?.[0];
 
-    if (!photo) return;
+    if (!photo){
+    return;
+}
 
     const reader = new FileReader();
 

@@ -1,25 +1,24 @@
 <script setup lang="ts">
 // import Layout from "@/Layouts/Authenticated.vue";
 // import BreadCrumbs from "@/components/BreadCrumbs.vue";
-import Card from '@/components/Card/Card.vue';
-import Container from '@/components/Container.vue';
-import InputError from '@/components/InputError.vue';
-import { Button } from '@/components/ui/button';
 import { Head, useForm } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
+import SystemSettingController from '@/actions/App/Http/Controllers/SystemSettingController';
+import Card from '@/components/Card/Card.vue';
+import Container from '@/components/Container.vue';
+import DialogModal from '@/components/DialogModal.vue';
+import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
 // import SelectGroup from "@/components/SelectGroup.vue";
 // import { trans } from "laravel-vue-i18n";
 // import DialogModal from "@/components/DialogModal.vue";
 // import InputGroup from "@/components/InputGroup.vue";
-import AppLayout from '@/layouts/AppLayout.vue';
 
-import SystemSettingController from '@/actions/App/Http/Controllers/SystemSettingController';
-import DialogModal from '@/components/DialogModal.vue';
 import Input from '@/components/ui/input/Input.vue';
-import { useModal } from '@/composables/useModal';
-import { store } from '@/routes/systemSettings';
-import { usePageHeader } from '@/composables/usePageHeader';
 import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
+import { useModal } from '@/composables/useModal';
+import { usePageHeader } from '@/composables/usePageHeader';
+import { store } from '@/routes/systemSettings';
 // import { type BreadcrumbItem } from '@/types';
 
 interface day {
@@ -27,7 +26,7 @@ interface day {
     name: string;
 }
 
-interface item {
+interface theItem {
     id?: number;
     'name.ar'?: string;
     'name.en'?: string;
@@ -52,7 +51,7 @@ interface item {
     };
 }
 
-interface errors {
+interface theErrors {
     'name.ar'?: string;
     'name.en'?: string;
     'address.ar'?: string;
@@ -66,9 +65,9 @@ interface errors {
 
 interface props {
     title: string;
-    item: item;
+    item: theItem;
     logoPath: string;
-    errors: errors;
+    errors: theErrors;
 }
 
 const props = defineProps<props>();
@@ -189,6 +188,7 @@ watch(
 
 const changeStatus = () => {
     form.active = !form.active;
+    
     return setActiveColor();
 };
 

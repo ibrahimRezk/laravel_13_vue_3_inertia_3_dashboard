@@ -70,9 +70,7 @@ class ProfileController extends Controller
     {
         
         $user = $request->user();
-        
-        // dd($user->avatar);
-        // dd('heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeere');
+
         if ($user->avatar) {
             Storage::disk('public')->delete($request->user()->avatar);
         }
@@ -88,7 +86,8 @@ class ProfileController extends Controller
     }
 
 
-    public function deleteAvatar(Request $request)
+
+    public function deleteAvatar(Request $request) 
     {
         if ($request->user()->avatar) {
             Storage::disk('public')->delete($request->user()->avatar);

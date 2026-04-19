@@ -1,25 +1,24 @@
 <script setup lang="ts">
-import Container from '@/components/Container.vue';
-import InputError from '@/components/InputError.vue';
 import { Form, Head, useForm } from '@inertiajs/vue3';
 import { onMounted, watch } from 'vue';
-
 import RolesController from '@/actions/App/Http/Controllers/RolesController';
+import Container from '@/components/Container.vue';
+import InputError from '@/components/InputError.vue';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import Label from '@/components/ui/label/Label.vue';
 import Spinner from '@/components/ui/spinner/Spinner.vue';
-import AppLayout from '@/layouts/AppLayout.vue';
+import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
+import { usePageHeader } from '@/composables/usePageHeader';
 import { store, update } from '@/routes/roles';
-import {
+import type {
     //  BreadcrumbItem,
-    type fillFormType,
+     fillFormType,
 } from '@/types';
 
 import Permissions from './Permissions.vue';
 
-import { usePageHeader } from '@/composables/usePageHeader';
-import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
 
 interface rolePermission {
     id: number;
@@ -229,7 +228,7 @@ watch(
                     </div>
                     <div class="flex w-full items-center justify-center">
                         <Button
-                            class="my-4 rounded-full border border-orange-100 bg-linear-to-l from-orange-800 to-orange-500 px-10 py-1 text-sm tracking-wider text-white capitalize shadow-2xl shadow-black drop-shadow-2xl duration-300 ease-in-out hover:scale-110 hover:cursor-pointer hover:from-orange-900 hover:to-orange-500"
+                            class="my-4 rounded-full border border-orange-100 bg-linear-to-l from-orange-800 to-orange-500 max-w-26 w-full py-1 text-sm tracking-wider text-white capitalize shadow-2xl shadow-black drop-shadow-2xl duration-300 ease-in-out hover:scale-110 hover:cursor-pointer hover:from-orange-900 hover:to-orange-500"
                             variant="linear_orange"
                             size="md"
                             type="submit"

@@ -153,7 +153,7 @@ const attachDetachPermission = async ( event: Event, permission: number | string
     await post(url, {
         onSuccess: (response) => {
                 // console.log(response)
-                toastMethod(event, response);
+                toastMethod(event, response as ApiResponse);
             },
             onError: (error) => {
             console.log(error)

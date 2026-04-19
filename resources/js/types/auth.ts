@@ -1,6 +1,12 @@
+
+interface name {
+    ar: string,
+    en: any
+}
+
 export type User = {
     id: number;
-    name: string;
+    name: name;
     email: string;
     avatar?: string;
     email_verified_at: string | null;

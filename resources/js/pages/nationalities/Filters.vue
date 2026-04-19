@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { wTrans } from "laravel-vue-i18n";
 import {
     Listbox,
     ListboxButton,
     ListboxOption,
     ListboxOptions,
 } from '@headlessui/vue';
-
+import { wTrans } from "laravel-vue-i18n";
+import { onMounted, ref, watch } from 'vue';
 import Card from '@/components/Card/Card.vue';
 import Input from '@/components/ui/input/Input.vue';
 // import Label from '@/components/ui/label/Label.vue';
