@@ -3,7 +3,7 @@ import type { ComputedRef, Ref } from 'vue';
 import { computed, ref } from 'vue';
 import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
 
-export type UseTwoFactorAuthReturn = {
+export type UseTwoFactorAuthReturn = { 
     qrCodeSvg: Ref<string | null>;
     manualSetupKey: Ref<string | null>;
     recoveryCodesList: Ref<string[]>;
@@ -85,15 +85,39 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
         }
     };
 
+    // const fetchSetupData = async (): Promise<void> => {
+    //     try {
+    //         clearErrors();
+    //         await Promise.all([fetchQrCode(), fetchSetupKey()]);
+    //     } catch {
+    //         qrCodeSvg.value = null;
+    //         manualSetupKey.value = null;
+    //     }
+    // };
+
     const fetchSetupData = async (): Promise<void> => {
+    clearErrors();
+
+    const attempt = async (): Promise<void> => {
+        await Promise.all([fetchQrCode(), fetchSetupKey()]);
+    };
+
+    try {
+        await attempt();
+    } catch {
+        // First attempt failed (likely a race on first enable), retry once
+        clearErrors();
+        await new Promise((r) => setTimeout(r, 500));
+        
         try {
-            clearErrors();
-            await Promise.all([fetchQrCode(), fetchSetupKey()]);
+            await attempt();
         } catch {
             qrCodeSvg.value = null;
             manualSetupKey.value = null;
         }
-    };
+    }
+};
+
 
     return {
         qrCodeSvg,

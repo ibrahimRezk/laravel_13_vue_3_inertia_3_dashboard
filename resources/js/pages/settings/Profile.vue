@@ -49,7 +49,6 @@ breadcrumbs.value = [
 const page = usePage();
 const user = ref<User>(page.props.auth.user);
 
-console.log(page.props)
 
 watch(
     () => page.props.auth.user,

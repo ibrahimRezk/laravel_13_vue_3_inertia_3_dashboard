@@ -152,7 +152,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                 <Button v-if="hasSetupData" @click="showSetupModal = true">
                     <ShieldCheck />Continue setup
                 </Button>
-                <Form
+                <Form 
                     v-else
                     v-bind="enable.form()"
                     @success="showSetupModal = true"

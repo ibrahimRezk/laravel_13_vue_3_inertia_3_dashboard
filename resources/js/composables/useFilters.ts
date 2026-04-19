@@ -45,10 +45,11 @@ export default function useFilters(params: FilterParams) {
     // 3. Computed check to see if any filter is active (excluding pagination)
     const isFilled = computed(() => {
         const { page, paginationNumber, ...rest } = filters.value;
+        console.log(page , paginationNumber) /// just to remove the error of un used item in const { page, paginationNumber , ..rest}
+
         return Object.values(rest).some(
             (v) => v !== '' && v !== null && v !== undefined
         );
-        console.log(page , paginationNumber) /// just to remove the error of un used item in const { page, paginationNumber , ..rest}
     });
 
     // 4. The Fetching Logic
