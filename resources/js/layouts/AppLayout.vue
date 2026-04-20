@@ -1,26 +1,15 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
-import type { BreadcrumbItemType } from '@/types';
-import { usePageHeader } from '@/composables/usePageHeader'
-import { useBreadcrumbs } from '@/composables/useBreadcrumbs'
-
-// interface Props {
-//     breadcrumbs?: BreadcrumbItemType[];
-
-// }
-
-// withDefaults(defineProps<Props>(), {
-//     breadcrumbs: () => [],
-
-// });
-
-
-
 import { router } from '@inertiajs/vue3'
-
 import { storeToRefs } from 'pinia';
-import { useGeneralStore } from '@/stores';
 import { onMounted, onUnmounted } from 'vue';
+import { useBreadcrumbs } from '@/composables/useBreadcrumbs'
+import { usePageHeader } from '@/composables/usePageHeader'
+import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
+
+
+
+
+import { useGeneralStore } from '@/stores';
 const useGeneral = useGeneralStore();
 const { animate } = storeToRefs(useGeneral);
 // const { paginationNumber } = storeToRefs(useGeneral);

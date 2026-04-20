@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import Dropdown from '@/components/Dropdown.vue';
 import FilterIcon from '@/components/Icons/Filter.vue';
-import { Button, type ButtonVariants } from './ui/button'; 
+import { Button } from './ui/button'; 
+import type {  ButtonVariants } from './ui/button'; 
 
 interface Props {
     width?: string;

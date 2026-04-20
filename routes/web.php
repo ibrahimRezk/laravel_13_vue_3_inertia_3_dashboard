@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\DeleteImageController;
+use App\Http\Controllers\UploadImagesController;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -35,21 +39,30 @@ Route::middleware([
 ])->group(function () {
 
     Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
+
+    $user = User::first();
+    $user->load('media');
+
+        return Inertia::render('Dashboard' , [
+            'item' => new UserResource($user)
+        ]);
     })->name('dashboard');
     
+
+
     Route::resource('systemSettings', SystemSettingController::class)->only(['index' , 'store']);
     Route::resource('nationalities', NationalityController::class);
-
-
-
+    
+    
+    
     Route::resource('admins', AdminController::class)->parameters(['admins' => 'user']);
     Route::resource('roles', RolesController::class)->only(['index' , 'create' , 'store' , 'edit' , 'update' , 'destroy']);
     Route::post('roles/attach-permission', AttachPermissionToRoleController::class)->name('roles.attach-permission');
     Route::post('roles/detach-permission', DetachPermissionFromRoleController::class)->name('roles.detach-permission');
-
-
-
+    
+    
+    Route::post('upload-image', UploadImagesController::class)->name('image.store');
+    Route::delete('delete-image/{id}', DeleteImageController::class)->name('image.delete');
 
 
        //////////// to change lang /////////

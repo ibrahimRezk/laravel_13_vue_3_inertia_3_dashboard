@@ -40,7 +40,10 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'token' => csrf_token(),
             ],
+
+           
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
              'messages' => [
                 'success' => $request->session()->get('success'),

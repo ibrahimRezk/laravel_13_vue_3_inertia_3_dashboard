@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import { home } from '@/routes';
+// import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import { home } from '@/routes';
+
+interface quote {
+    message: string;
+    author: string;
+};
+
 
 const page = usePage();
 const name = page.props.name;
-const quote = page.props.quote;
+const quote = page.props.quote as quote;
 
 defineProps<{
     title?: string;

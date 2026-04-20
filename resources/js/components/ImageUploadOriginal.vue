@@ -1,9 +1,9 @@
-<script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
-import Dropzone from "dropzone";
+<!-- <script setup lang="ts">
 import { usePage } from "@inertiajs/vue3";
-import "dropzone/dist/dropzone.css";
+import Dropzone from "dropzone";
 import { trans } from "laravel-vue-i18n";
+import { onMounted, ref, watch } from "vue";
+import "dropzone/dist/dropzone.css";
 
 
 // import { usePage } from "@inertiajs/vue3";
@@ -134,18 +134,18 @@ onMounted(() => {
 
     // Jkh6xlVBVhfjYBwt4beUuwUHHmqwszi3WC5LyoO8
 });
-</script>
+</script> -->
 <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////// important code to move the error messages under the images down alittle
 bit to show remove link -->
-<style>
+<!-- <style>
 .dropzone .dz-preview .dz-error-message {
     top: 150px !important;
 }
-</style>
+</style> -->
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
-<template>
+<!-- <template>
     <div class="flex justify-center items-center">
         <div
             class="text-yellow-200 text-sm border border-gray-200/20 rounded-full px-3"
@@ -177,4 +177,4 @@ bit to show remove link -->
     </div>
 
 
-</template>
+</template> -->

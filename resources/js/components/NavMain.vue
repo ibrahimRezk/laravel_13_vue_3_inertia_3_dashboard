@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { Link, router, usePage } from '@inertiajs/vue3';
+import { storeToRefs } from 'pinia';
+import { onMounted, ref } from 'vue';
+import { onUnmounted } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 
 // import {
@@ -19,21 +23,17 @@ import {
 } from '@/components/ui/sidebar';
 
 // import { urlIsActive } from '@/lib/utils';
-import { type NavItem } from '@/types';
-import { Link, router, usePage } from '@inertiajs/vue3';
-
-import { onMounted, ref } from 'vue';
-
 import { useGeneralStore } from '@/stores';
+import type{  NavItem, SubMenuItem } from '@/types';
+
+
 const page = usePage();
 
-const props = defineProps<{
+defineProps<{
     items: NavItem[];
 }>();
 
 
-import { storeToRefs } from 'pinia';
-import { onUnmounted } from 'vue';
 const useGeneral = useGeneralStore();
 const { animate } = storeToRefs(useGeneral);
 const { paginationNumber } = storeToRefs(useGeneral);
@@ -45,7 +45,7 @@ onMounted(() => {
 
 
 const startLeaveAnimation = () => {
-    paginationNumber.value = page.props.paginationNumber;
+    paginationNumber.value = page.props.paginationNumber as number;
     // paginationNumber.value = usePage().props.paginationNumber; // very important   its prevent call the page twice if we switch to another page  . check this part to move it to another place
     animate.value = false;
     
@@ -56,10 +56,10 @@ const current_lang = ref(document
     .getAttribute('lang'));
 
 
-const menus = ref<NavItem[]>(page.props.menus);
+const menus = ref<NavItem[]>(page.props.menus as NavItem[]);
 
 const removeStart =router.on('finish' , ()=> {
-    menus.value = page.props.menus
+    menus.value = page.props.menus as NavItem[]
     current_lang.value =   document.getElementsByTagName('html')[0].getAttribute('lang')
 
 })
@@ -80,6 +80,7 @@ const openCloseSubMenu = (activeMenu: NavItem) => {
         activeMenu.open = !activeMenu.open;
         menus.value.forEach((menu: NavItem) => {
             slideActionName.value = 'accordion';
+            
             if (menu.title !== activeMenu.title) {
                 menu.open = false;
             }
@@ -99,9 +100,10 @@ onMounted(() => {
 const handleSidebarMenus = ()=> {
     menus.value.forEach((menu) => {
         if (menu.hasSubmenu) {
-            menu.subMenus.forEach((submenu: NavItem) => {
+           ( menu.subMenus as SubMenuItem[]).forEach((submenu: SubMenuItem) => {
                 if (submenu.isActive) {
                     slideActionName.value = ''; // keep it empty to prevent animation on sidebar menu when clicking on the current page or filter on it
+
                     return (menu.open = true);
                     // return openCloseSubMenu(menu);
                 }

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 // import NavFooter from '@/components/NavFooter.vue';
 // import NavUser from '@/components/NavUser.vue';
+import { Link, router, usePage } from '@inertiajs/vue3';
+import {  onMounted, onUnmounted, ref } from 'vue';
 import NavMain from '@/components/NavMain.vue';
 import {
     Sidebar,
@@ -10,14 +12,13 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarProps,
+    
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
+import type { NavItem } from '@/types';
 // import { type NavItem } from '@/types';
 // import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
-import { Link, router, usePage } from '@inertiajs/vue3';
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 
 // const mainNavItems: NavItem[] = [
 //     {
@@ -57,7 +58,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
 //     removeStart()
 // })
 
-const mainNavItems = usePage().props.menus;
+const mainNavItems = usePage().props.menus as NavItem[];
 
 // const footerNavItems: NavItem[] = [
 //     {
@@ -89,7 +90,7 @@ const mainNavItems = usePage().props.menus;
 //     }
 // });
 
-const direction = ref('left');
+const direction = ref<'left'| 'right'>('left');
 
 // watch(()=> dir.value,()=> console.log(dir.value))
 const removeStart = router.on('finish', () => {

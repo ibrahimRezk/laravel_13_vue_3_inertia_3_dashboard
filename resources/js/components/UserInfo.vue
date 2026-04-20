@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/composables/useInitials';
 // import type { User } from '@/types';
-import { computed, ref } from 'vue';
 
 interface Props {
     // user: User;
@@ -13,7 +14,6 @@ interface Props {
     showEmail: false,
 });
 
-import { usePage } from '@inertiajs/vue3';
 
 
 const page = usePage();

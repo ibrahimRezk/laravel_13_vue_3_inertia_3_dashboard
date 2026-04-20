@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
-import axios from 'axios'; // Ensure axios is imported
+import { useHttp } from '@inertiajs/vue3';
+
 import Dropzone from 'dropzone';
 import 'dropzone/dist/dropzone.css';
+
 import { trans } from 'laravel-vue-i18n';
 import { onMounted, ref, watch } from 'vue';
+import image from '@/routes/image';
 
 // 1. Define strict TypeScript interfaces for your data
 interface ImageItem {
@@ -23,7 +26,7 @@ interface Props {
     };
     modelType: string;
     collection?: string;
-    modelId: number;
+    modelId?: number;
     maxFilesize?: number;
     maxFiles?: number;
 }
@@ -47,10 +50,14 @@ onMounted(() => {
 
     Dropzone.autoDiscover = false;
 
+
     dzInstance = new Dropzone('#image-upload', {
-        url: window.route('images.store'), // Assuming Ziggy is global
+        url: image.store().url,
+        // url: window.route('images.store'), // Assuming Ziggy is global
         headers: {
-            'X-CSRF-TOKEN': (usePage().props as any).csrf_token,
+            // 'X-CSRF-TOKEN': (usePage().props as any).csrf_token,
+            "X-CSRF-TOKEN": (usePage().props as any).auth.token
+
         },
         paramName: 'image',
         maxFilesize: props.maxFilesize,
@@ -83,12 +90,17 @@ onMounted(() => {
             if (file.previewElement) {
                 file.previewElement.remove();
             }
+
             if (file.image_id) {
-                axios.delete(
-                    window.route('images.destroy', { id: file.image_id }),
-                );
+
+
+                const http = useHttp();
+
+                http.delete(image.delete.url({ id:file.image_id }) )
                 maxFilesNumber.value++;
+
             }
+
             return this; // Dropzone expects the instance returned
         },
 
@@ -101,6 +113,8 @@ onMounted(() => {
                     image_id: image.img.id,
                     accepted: true,
                 } as any;
+
+
 
                 this.displayExistingFile(mockFile, image.img.original_url);
 
@@ -116,6 +130,7 @@ onMounted(() => {
             this.on('addedfile', (file: any) => {
                 file.previewElement.addEventListener('click', () => {
                     const img = file.previewElement.querySelector('img');
+
                     if (img?.src) {
                         window.open(img.src, '_blank');
                     }
@@ -126,7 +141,7 @@ onMounted(() => {
 
     dzInstance.on('sending', (file: any, xhr: any, formData: any) => {
         formData.append('modelType', props.modelType);
-        formData.append('modelId', props.modelId.toString());
+        formData.append('modelId', props.modelId?.toString());
         formData.append('collection', props.collection);
     });
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { RouteDefinition } from '@/wayfinder';
 import { Link } from '@inertiajs/vue3';
 import { computed, useAttrs } from 'vue';
+import type {  RouteDefinition } from '@/wayfinder';
 
 interface Props {
     // Wayfinder routes are objects; standard hrefs are strings
@@ -22,7 +22,8 @@ const formattedHref = computed(() => {
     if (typeof props.href === 'object' && props.href !== null) {
         return (props.href as any).url;
     }
-    return props.href;
+    
+    return props.href as string;
 });
 
 const classes =
