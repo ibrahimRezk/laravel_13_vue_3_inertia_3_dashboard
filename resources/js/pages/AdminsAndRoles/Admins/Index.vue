@@ -14,6 +14,7 @@ import Table from '@/components/Table/Table.vue';
 import Td from '@/components/Table/Td.vue';
 import { Button } from '@/components/ui/button';
 import DialogFooter from '@/components/ui/dialog/DialogFooter.vue';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
     Select,
