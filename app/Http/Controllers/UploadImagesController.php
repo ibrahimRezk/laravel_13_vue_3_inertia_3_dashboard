@@ -54,12 +54,14 @@ class UploadImagesController extends Controller
         // dd($model);
         
 
-       $id =  $model->addMediaFromRequest('image')   /// model id and model type will come from payload request
+       $image =  $model->addMediaFromRequest('image')   /// model id and model type will come from payload request
             // ->withResponsiveImages()  // for uploading multiple sizes of the same files  but it take too much time on saving
             ->toMediaCollection();  // for uploading multiple images within one request
 
         // return response('success');
 
-        return response(['status' => true, 'id' => $id], 200); 
+        return response(['status' => true, 'image' => $image], 200); 
+
+        
     }
 }

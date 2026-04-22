@@ -17,26 +17,34 @@ use Spatie\Translatable\HasTranslations;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-#[Fillable(['name', 'email', 'password' , 'avatar','active','used_before',])]
+#[Fillable(['name', 'email', 'password', 'avatar', 'active', 'used_before',])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
-class User extends Authenticatable  implements HasMedia
+class User extends Authenticatable implements HasMedia
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
     use HasRoles;
-    use SoftDeletes;  
+    use SoftDeletes;
     use InteractsWithMedia;
     use HasTranslations;
 
 
-            public $translatable = ['name'];
+    public $translatable = ['name'];
 
-              public function profile()
+    public function profile()
     {
         return $this->morphTo();
     }
-  
+
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('default')
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
+            ->onlyKeepLatest(10); // optional — mirrors the frontend cap
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -46,14 +54,14 @@ class User extends Authenticatable  implements HasMedia
     {
         return [
             'email_verified_at' => 'datetime',
-            
+
             'password' => 'hashed',
             'active' => 'boolean',
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
 
-            public function scopeActive($builder)
+    public function scopeActive($builder)
     {
         return $builder->where('active', true);
     }

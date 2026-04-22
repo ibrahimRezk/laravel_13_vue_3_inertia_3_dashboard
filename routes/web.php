@@ -15,6 +15,9 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SystemSettingController;
 use Inertia\Inertia;
 
+use App\Http\Controllers\ImageUploadController;
+
+
 Route::inertia('/', 'Welcome', [
     'canRegister' => Features::enabled(Features::registration()),
 ])->name('home');
@@ -61,8 +64,23 @@ Route::middleware([
     Route::post('roles/detach-permission', DetachPermissionFromRoleController::class)->name('roles.detach-permission');
     
     
-    Route::post('upload-image', UploadImagesController::class)->name('image.store');
-    Route::delete('delete-image/{id}', DeleteImageController::class)->name('image.delete');
+    
+    
+    
+    
+    
+    // Route::post('upload-image', UploadImagesController::class)->name('image.store');
+    // Route::delete('delete-image/{id}', DeleteImageController::class)->name('image.delete');
+
+
+Route::post('/upload-image', [ImageUploadController::class, 'store'])->name('image.store');
+Route::delete('/delete-image/{id}', [ImageUploadController::class, 'destroy'])->name('image.destroy');
+
+
+
+
+
+
 
 
        //////////// to change lang /////////
