@@ -359,11 +359,12 @@ const clearAll = async (): Promise<void> => {
 
 <template>
     <!-- ── Page wrapper ─────────────────────────────────────────────────────── -->
+    <!-- class="flex min-h-screen flex-col items-center bg-[#0d0f14] px-4 py-14 font-sans text-white" -->
     <div
-        class="flex min-h-screen flex-col items-center bg-[#0d0f14] px-4 py-14 font-sans text-white"
+        class="flex min-h-screen flex-col items-center bg-[rgba(0,0,0,0.22)] dark:bg-[rgba(0,0,0,0.73)] px-4 py-14 font-sans text-white"
     >
         <!-- ── Header ─────────────────────────────────────────────────────────── -->
-        <header class="mb-10 text-center">
+        <header class="mb-7 text-center">
             <h1
                 class="text-4xl leading-none font-extrabold tracking-tight text-white"
             >
@@ -374,7 +375,7 @@ const clearAll = async (): Promise<void> => {
                     Uploader
                 </span>
             </h1>
-            <p class="mt-3 text-sm tracking-wide text-zinc-400">
+            <p class="mt-3 text-sm tracking-wide dark:text-zinc-400 text-zinc-300 border rounded-full px-2 border-gray-100/20" >
                 Drop up to
                 <span class="font-semibold text-violet-300"
                     >{{ MAX_FILES }} images</span
@@ -397,7 +398,7 @@ const clearAll = async (): Promise<void> => {
                         ? 'scale-[1.02] border-fuchsia-400 bg-fuchsia-500/10'
                         : isLimitReached
                           ? 'cursor-not-allowed border-zinc-700 bg-zinc-800/40 '
-                          : 'border-zinc-600 bg-zinc-900/50 hover:border-violet-500 hover:bg-violet-500/5 ',
+                          : 'border-zinc-600 bg-zinc-900/50 hover:border-slate-400 dark:hover:border-violet-500 hover:bg-zinc-950/60 dark:hover:bg-violet-500/5 ',
                 ]"
             >
 
@@ -506,7 +507,7 @@ const clearAll = async (): Promise<void> => {
                                 v-if="uploadedFiles.length"
                                 tag="div"
                                 name="grid-item"
-                                class=" mt-10 grid w-full max-w-2xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-violet-500/10 hover:cursor-default p-2 rounded-2xl border border-gray-300/10"
+                                class=" mt-10 grid w-full max-w-2xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-slate-900/25 dark:bg-violet-500/10 hover:cursor-default p-2 rounded-2xl border border-gray-300/10"
                             >
                                 <div
                                     v-for="file in uploadedFiles"
