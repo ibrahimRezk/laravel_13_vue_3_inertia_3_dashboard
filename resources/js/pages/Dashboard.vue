@@ -27,7 +27,8 @@ breadcrumbs.value = [
 
 interface ImageItem {
     img: {
-        id: number;
+        id: string | number;
+        uuid: string | number;
         name: string;
         size: number;
         mime_type: string;
@@ -45,7 +46,7 @@ interface itemData {
     password: string;
     roleId: number;
     active: boolean;
-images: ImageItem[]
+    images: ImageItem[]
 }
 
 
@@ -66,7 +67,7 @@ const maxUploadImageCount = 10;
 
     <div class="col-span-2">
         <ImageUpload
-            :item="props.item"
+            :images="props.item?.images"
             model-type="App\Models\User"
             :model-id="props.item?.id"
             :maxFiles="maxUploadImageCount"

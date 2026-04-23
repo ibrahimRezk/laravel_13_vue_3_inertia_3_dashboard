@@ -27,7 +27,7 @@ import image from '@/routes/image';
 /** Shape of the JSON response returned by Laravel's upload endpoint. */
 interface UploadResponse {
     success: boolean;
-    path: string;
+    imageId: string;
     url: string;
     name: string;
     size: number;
@@ -38,7 +38,7 @@ interface UploadedFile {
     id: string | number; // crypto.randomUUID()
     name: string;
     url: string; // public storage URL
-    path: string | number; // storage-relative path, e.g. "uploads/abc.jpg"
+    imageId: string | number; 
     size: number; // bytes
 }
 
@@ -95,9 +95,10 @@ interface ImageItem {
 }
 
 interface Props {
-    item?: {
-        images?: ImageItem[];
-    };
+     images?: ImageItem[]
+    // item?: {
+    //     images?: ImageItem[];
+    // };
     modelType: string;
     collection?: string;
     modelId?: number;
@@ -106,7 +107,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    item: () => ({ images: [] }),
+    // item: () => ({ images: [] }),
+    images: () => ( [] ),
     collection: '',
     maxFilesize: 1024,
     maxFiles: 10,
@@ -176,12 +178,12 @@ onMounted((): void => {
 
     Dropzone.autoDiscover = false;
 
-    props.item.images?.forEach((image) => {
+    props.images?.forEach((image) => {
         uploadedFiles.value.push({
             id: image.img.uuid,
             name: image.img.name,
             url: image.img.original_url,
-            path: image.img.id,
+            imageId: image.img.id,
             size: image.img.size,
         });
     });
@@ -280,7 +282,7 @@ onMounted((): void => {
             id: generateUUID(),
             name: data.name ?? file.name,
             url: data.url,
-            path: data.path,
+            imageId: data.imageId,
             size: data.size ?? file.size ?? 0,
         });
 
@@ -327,10 +329,10 @@ onBeforeUnmount((): void => {
  */
 const removeImage = async (file: UploadedFile): Promise<void> => {
     clearError();
-    console.log(file.path);
+    console.log(file.imageId);
 
     try {
-        await http.delete(image.destroy.url({ id: file.path }));
+        await http.delete(image.destroy.url({ id: file.imageId }));
     } catch {
         // Silently remove from UI even if the server-side delete fails
     }
