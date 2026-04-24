@@ -394,7 +394,7 @@ const clearAll = async (): Promise<void> => {
             class="relative overflow-hidden rounded-2xl bg-black/50 p-0.5 focus:outline-none dark:bg-white/10" 
             >
             <span
-            class="animate-spin  absolute  blur-3xl   inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_80%,#facc15_90%,#f41fff_100%)] "
+            class="animate-spin  absolute  blur-3xl   inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_80%,#facc15_90%,#d61900_100%)] "
             style="animation-duration: 12s"
             />
             <!-- Dropzone area -->
