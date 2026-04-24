@@ -358,10 +358,11 @@ const clearAll = async (): Promise<void> => {
 </script>
 
 <template>
+    
     <!-- ── Page wrapper ─────────────────────────────────────────────────────── -->
     <!-- class="flex min-h-screen flex-col items-center bg-[#0d0f14] px-4 py-14 font-sans text-white" -->
     <div
-        class="flex min-h-screen flex-col items-center bg-[rgba(0,0,0,0.22)] dark:bg-[rgba(0,0,0,0.73)] px-4 py-14 font-sans text-white"
+        class="flex min-h-screen flex-col items-center bg-[rgba(0,0,0,0.22)] dark:bg-[rgba(0,0,0,0.73)] px-4 py-12 font-sans text-white"
     >
         <!-- ── Header ─────────────────────────────────────────────────────────── -->
         <header class="mb-7 text-center">
@@ -386,19 +387,28 @@ const clearAll = async (): Promise<void> => {
         </header>
 
         <!-- ── Upload card ────────────────────────────────────────────────────── -->
-        <div class="w-full max-w-2xl">
+
+
+        <div class="w-full max-w-3xl">
+            <div
+            class="relative overflow-hidden rounded-2xl bg-black/50 p-0.5 focus:outline-none dark:bg-white/10"
+            >
+            <span
+            class="animate-spin  absolute  inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_80%,#facc15_90%,#f41fff_100%)]"
+            style="animation-duration: 12s"
+            />
             <!-- Dropzone area -->
             <div
                 ref="dropzoneEl"
                 :class="[
-                    'relative flex flex-col items-center justify-center gap-4 ',
+                    'relative flex flex-col items-center justify-center gap-4   backdrop-blur-3xl  backdrop-sepia',
                     'cursor-pointer rounded-2xl border-2 border-dashed ',
                     'px-8 py-14 transition-all duration-300 ease-out',
                     isDragging
                         ? 'scale-[1.02] border-fuchsia-400 bg-fuchsia-500/10'
                         : isLimitReached
                           ? 'cursor-not-allowed border-zinc-700 bg-zinc-800/40 '
-                          : 'border-zinc-600 bg-zinc-900/50 hover:border-slate-400 dark:hover:border-violet-500 hover:bg-zinc-950/60 dark:hover:bg-violet-500/5 ',
+                          : 'border-zinc-500 bg-zinc-900/50 hover:border-slate-400 dark:hover:border-violet-300/60 hover:bg-zinc-950/60  ',
                 ]"
             >
 
@@ -574,7 +584,7 @@ const clearAll = async (): Promise<void> => {
                                 <div v-if="uploadedFiles.length" class="mt-8 flex justify-center">
                                     <button
                                         @click="clearAll"
-                                        class="text-xs text-zinc-500 underline underline-offset-4 transition-colors duration-150 hover:text-red-400"
+                                        class="text-xs dark:text-zinc-500 text-zinc-400 underline underline-offset-4 transition-colors duration-150 hover:text-red-400"
                                     >
                                         Clear all uploads
                                     </button>
@@ -583,6 +593,7 @@ const clearAll = async (): Promise<void> => {
                 </div>
 
                
+            </div>
             </div>
     </div>
 </template>
