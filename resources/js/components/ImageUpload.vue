@@ -391,19 +391,19 @@ const clearAll = async (): Promise<void> => {
 
         <div class="w-full max-w-3xl">
             <div
-            class="relative overflow-hidden rounded-2xl bg-black/50 p-0.5 focus:outline-none dark:bg-white/10"
+            class="relative overflow-hidden rounded-2xl bg-black/50 p-0.5 focus:outline-none dark:bg-white/10" 
             >
             <span
-            class="animate-spin  absolute  inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_80%,#facc15_90%,#f41fff_100%)]"
+            class="animate-spin  absolute  blur-3xl   inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_80%,#facc15_90%,#f41fff_100%)] "
             style="animation-duration: 12s"
             />
             <!-- Dropzone area -->
             <div
                 ref="dropzoneEl"
                 :class="[
-                    'relative flex flex-col items-center justify-center gap-4   backdrop-blur-3xl  backdrop-sepia',
-                    'cursor-pointer rounded-2xl border-2 border-dashed ',
-                    'px-8 py-14 transition-all duration-300 ease-out',
+                    'relative flex flex-col items-center justify-center gap-4     backdrop-sepia  backdrop-blur-3xl ',
+                    'cursor-pointer rounded-2xl border-2 border-dashed  ',
+                    'px-8 py-14 transition-all duration-300 ease-out ',
                     isDragging
                         ? 'scale-[1.02] border-fuchsia-400 bg-fuchsia-500/10'
                         : isLimitReached
