@@ -33,7 +33,7 @@ withDefaults(defineProps<Props>(), {
     <AppShell variant="sidebar">
         <Alert :success :error />
         <AppSidebar />
-        <AppContent variant="sidebar" class="overflow-x-hidden">
+        <AppContent variant="sidebar" class="overflow-hidden">
             <AppSidebarHeader
                 :breadcrumbs="breadcrumbs"
                 :header="header"

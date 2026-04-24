@@ -362,7 +362,7 @@ const clearAll = async (): Promise<void> => {
     <!-- ── Page wrapper ─────────────────────────────────────────────────────── -->
     <!-- class="flex min-h-screen flex-col items-center bg-[#0d0f14] px-4 py-14 font-sans text-white" -->
     <div
-        class="flex min-h-screen flex-col items-center bg-[rgba(0,0,0,0.22)] dark:bg-[rgba(0,0,0,0.73)] px-4 py-12 font-sans text-white"
+        class="flex min-h-screen flex-col items-center bg-[rgba(0,0,0,0.22)] dark:bg-[rgba(0,0,0,0.73)] px-4 py-12 font-sans text-white "
     >
         <!-- ── Header ─────────────────────────────────────────────────────────── -->
         <header class="mb-7 text-center">
@@ -389,21 +389,21 @@ const clearAll = async (): Promise<void> => {
         <!-- ── Upload card ────────────────────────────────────────────────────── -->
 
 
-        <div class="w-full max-w-3xl">
+        <div class="w-full max-w-3xl ">
             <div
-            class="relative overflow-hidden rounded-2xl bg-black/50 p-0.5 focus:outline-none dark:bg-white/10" 
+            class="relative overflow-hidden rounded-2xl bg-black/50 p-0.5 focus:outline-none dark:bg-white/10 " 
             >
             <span
-            class="animate-spin  absolute  blur-3xl   inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_80%,#facc15_90%,#d61900_100%)] "
+            class="animate-spin  absolute  blur-2xl   inset-[-1000%] bg-[conic-gradient(from_90deg_at_50%_50%,transparent_80%,#ffc400_90%,#d61900_100%)] "
             style="animation-duration: 12s"
             />
             <!-- Dropzone area -->
             <div
                 ref="dropzoneEl"
                 :class="[
-                    'relative flex flex-col items-center justify-center gap-4     backdrop-sepia  backdrop-blur-3xl ',
+                    'relative flex flex-col items-center justify-center gap-4   backdrop-sepia  backdrop-blur-3xl  ',
                     'cursor-pointer rounded-2xl border-2 border-dashed  ',
-                    'px-8 py-14 transition-all duration-300 ease-out ',
+                    'px-8 py-14 transition-all duration-300 ease-out  ',
                     isDragging
                         ? 'scale-[1.02] border-fuchsia-400 bg-fuchsia-500/10'
                         : isLimitReached
@@ -584,7 +584,7 @@ const clearAll = async (): Promise<void> => {
                                 <div v-if="uploadedFiles.length" class="mt-8 flex justify-center">
                                     <button
                                         @click="clearAll"
-                                        class="text-xs dark:text-zinc-500 text-zinc-400 underline underline-offset-4 transition-colors duration-150 hover:text-red-400"
+                                        class="text-xs dark:text-zinc-500 text-zinc-400 underline underline-offset-4 transition-colors duration-150 hover:text-red-400 "
                                     >
                                         Clear all uploads
                                     </button>
