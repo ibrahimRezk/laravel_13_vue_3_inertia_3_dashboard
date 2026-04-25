@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'Dashboard' => 'الرئيسية' ,
+    'Nationalities' => 'الجنسيات' ,
     'welcome' => 'مرحبا بك في تطبيقنا',
     'login' => 'تسجيل الدخول',
     'register' => 'إنشاء حساب',

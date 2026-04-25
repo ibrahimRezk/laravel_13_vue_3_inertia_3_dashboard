@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'Dashboard' => 'Dashboard' ,
+    'Nationalities' => 'Nationalities' ,
     'welcome' => 'welcome' ,
     'login' => 'login' ,
     'register' => 'register' ,

@@ -147,7 +147,9 @@ const end = (el: HTMLElement): undefined => {
                                 :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"
                                 />
 
-                                <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> {{ item.title }} </span>
+                                <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
+                                     {{ $t('general.' + item.title  )  }} 
+                                </span>
                             </span>
 
                             <svg
@@ -222,7 +224,7 @@ const end = (el: HTMLElement): undefined => {
                                     >
                                         <Link :href="subItem.href"
                                         
-                                            >{{ subItem.title }}
+                                            >{{ $t('general.' + subItem.title  ) }}
                                         </Link>
                                     </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
@@ -254,7 +256,8 @@ const end = (el: HTMLElement): undefined => {
                                 :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"
                                 />
                                 
-                                <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> {{ item.title }} </span>
+                                <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
+                                     {{ $t('general.' + item.title  )  }} </span>
                             </span>
                         </span>
 

@@ -87,8 +87,8 @@ watch(
 </script>
 
 <template>
-    <nav aria-label="Page navigation" class="grid w-full grid-cols-10">
-        <div class="px-5">
+    <nav aria-label="Page navigation" class="grid w-full grid-cols-12">
+        <div class="px-5 col-span-2  ">
            <Select 
     v-if="showPaginationNumber" 
     :model-value="paginationNumber?.toString()" 
@@ -117,12 +117,12 @@ watch(
                     :key="link.label"
                     class="page-item"
                     :class="[
-                        !link.label.includes('&') ? 'hidden md:block' : 'block',
+                        !link.label.includes('&') ? 'hidden lg:block' : 'block',
                         { 'opacity-50 pointer-events-none': isDisabled(link) }
                     ]"
                 >
                     <button
-                        class=" page-link   dark:hover:bg-zinc-600  page-link relative block  px-3 py-1.5 transition-all duration-300 outline-none hover:cursor-pointer hover:bg-gray-700 hover:text-gray-300 focus:shadow-none "
+                        class=" page-link   dark:hover:bg-zinc-600   relative block  px-3 py-1.5 transition-all duration-300 outline-none hover:cursor-pointer hover:bg-gray-700 hover:text-gray-300 focus:shadow-none "
                         :class="{
                             'text-zinc-900 dark:text-gray-500': isDisabled(link) && (link.label.includes('Previous') ||  link.label.includes('Next') ||  link.label.includes('...')),
                             'bg-zinc-900  text-gray-100  font-semibold dark:font-normal dark:text-white dark:bg-zinc-500': link.active,
@@ -141,5 +141,7 @@ watch(
                 </li>
             </ul>
         </div>
+
+        <span class=" col-span-2"/>
     </nav>
 </template>
