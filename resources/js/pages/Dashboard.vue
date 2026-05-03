@@ -65,6 +65,8 @@ const maxUploadImageCount = 10;
 <template>
     <Head title="Dashboard" />
 
+
+
     <div class="col-span-2">
         <ImageUpload
             :images="props.item?.images"

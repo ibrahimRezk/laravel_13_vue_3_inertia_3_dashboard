@@ -12,6 +12,21 @@
 
 @theme inline {
 
+    --color-brand-wood: #25150c;
+  --color-brand-gold: #b28b46;
+  --color-brand-red: #711313;
+  --color-brand-paper: #e2cc9f;
+  --color-brand-paper-light: #eeddb5;
+  --color-brand-paper-dark: #c8ad7e;
+  
+  --font-cairo: "Cairo", sans-serif;
+  --font-amiri: "Amiri", serif;
+
+
+
+
+
+
        --color-skyOrange: #464b3f;
         --color-skyYellow: #554c34;
 
@@ -101,6 +116,21 @@
             'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
             'Noto Color Emoji';
     }
+}
+
+
+/* الأنماط المخصصة للورق والختم */
+@utility torn-paper {
+  background-color: #f1e1c3;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.15), inset 0 0 20px rgba(178, 139, 70, 0.1);
+  position: relative;
+  border: 1px solid #c8ad7e;
+}
+
+@utility wax-seal {
+  background: radial-gradient(circle, #8a1717 30%, #5c0b0b 90%);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.4), inset 0 2px 4px rgba(255,255,255,0.3);
+  border: 2px solid #4a0808;
 }
 
 :root {
