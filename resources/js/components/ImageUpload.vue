@@ -546,15 +546,15 @@ const clearAll = async (): Promise<void> => {
                     
                                     <!-- Overlay on hover -->
                                     <div
-                                        class="absolute inset-0 flex flex-col justify-between bg-black/60 p-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+                                        class="absolute inset-0 flex flex-col justify-between bg-black/60 p-2 opacity-40 sm:opacity-0 transition-opacity duration-200 group-hover:opacity-100"
                                     >
                                         <!-- File info -->
                                         <p
-                                            class="truncate px-1 text-[10px] leading-tight font-medium text-white"
+                                            class="truncate px-1 text-[10px] leading-tight font-medium text-white opacity-0 sm:opacity-100"
                                         >
                                             {{ file.name }}
                                         </p>
-                                        <p class="px-1 text-[9px] text-zinc-400">
+                                        <p class="px-1 text-[9px] text-zinc-400 opacity-0 sm:opacity-100">
                                             {{ formatBytes(file.size) }}
                                         </p>
                     
