@@ -3,7 +3,7 @@ import type { ComputedRef, Ref } from 'vue';
 import { computed, ref } from 'vue';
 import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
 
-export type UseTwoFactorAuthReturn = { 
+export type UseTwoFactorAuthReturn = {
     qrCodeSvg: Ref<string | null>;
     manualSetupKey: Ref<string | null>;
     recoveryCodesList: Ref<string[]>;
@@ -94,9 +94,6 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
             manualSetupKey.value = null;
         }
     };
-
-
-
 
     return {
         qrCodeSvg,

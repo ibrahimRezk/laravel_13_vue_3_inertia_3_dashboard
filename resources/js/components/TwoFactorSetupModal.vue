@@ -93,38 +93,16 @@ const resetModalState = () => {
     code.value = '';
 };
 
-// watch(
-//     () => isOpen.value,
-//     async (isOpen) => {
-//         if (!isOpen) {
-//             resetModalState();
-
-//             return;
-//         }
-
-//         if (!qrCodeSvg.value) {
-//             await fetchSetupData();
-//         }
-//     },
-// );
-
 watch(
     () => isOpen.value,
-    async (newIsOpen) => {
-        if (!newIsOpen) {
+    async (isOpen) => {
+        if (!isOpen) {
             resetModalState();
 
             return;
         }
 
         if (!qrCodeSvg.value) {
-            // Give Fortify time to commit the secret to the DB
-            // before fetching the QR code and setup key.
-            // Only needed on first enable (twoFactorEnabled is false).
-            if (!props.twoFactorEnabled) {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-            }
-
             await fetchSetupData();
         }
     },
@@ -280,6 +258,7 @@ watch(
                                     v-model="code"
                                     :maxlength="6"
                                     :disabled="processing"
+                                    autofocus
                                 >
                                     <InputOTPGroup>
                                         <InputOTPSlot
