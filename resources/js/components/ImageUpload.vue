@@ -499,8 +499,9 @@ const clearAll = async (): Promise<void> => {
                         >
                             <div
                                 v-if="errorMessage"
-                                class="mt-4 flex w-full items-start gap-3 rounded-xl border border-red-700/50 bg-red-950/60 px-4 py-3 text-sm text-red-300 col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 "
+                                class="mt-4 flex w-full justify-between items-start gap-3 rounded-xl border border-red-700/50 bg-red-950/60 px-4 py-3 text-sm text-red-300 col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 "
                             >
+                            <div class="flex gap-2 items-start">
                                 <svg
                                     class="mt-0.5 h-4 w-4 shrink-0"
                                     viewBox="0 0 20 20"
@@ -514,9 +515,10 @@ const clearAll = async (): Promise<void> => {
                                     />
                                 </svg>
                                 <span>{{ errorMessage }}</span>
+                            </div>
                                 <button
                                     @click="clearError"
-                                    class="ml-auto transition-colors hover:text-white"
+                                    class=" transition-colors hover:text-white"
                                 >
                                     ✕
                                 </button>
