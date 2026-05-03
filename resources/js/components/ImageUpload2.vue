@@ -31,7 +31,6 @@ interface UploadResponse {
     url: string;
     name: string;
     size: number;
-    id: number;
 }
 
 /** A successfully uploaded image tracked in Vue state. */
@@ -255,7 +254,6 @@ onMounted((): void => {
     dz.on('addedfile', (file: DropzoneFile): void => {
         clearError();
 
-
         // totalCount = already uploaded + currently uploading
         if (totalCount.value >= MAX_FILES) {
             errorMessage.value =
@@ -280,12 +278,11 @@ onMounted((): void => {
     dz.on('success', (file: DropzoneFile, response: string | object): void => {
         const data = response as UploadResponse;
 
-        console.log(data)
         uploadedFiles.value.push({
             id: generateUUID(),
             name: data.name ?? file.name,
             url: data.url,
-            imageId: data.id,
+            imageId: data.imageId,
             size: data.size ?? file.size ?? 0,
         });
 
@@ -332,8 +329,6 @@ onBeforeUnmount((): void => {
  */
 const removeImage = async (file: UploadedFile): Promise<void> => {
     clearError();
-
-    console.log(file);
     console.log(file.imageId);
 
     try {
@@ -406,7 +401,7 @@ const clearAll = async (): Promise<void> => {
             <div
                 ref="dropzoneEl"
                 :class="[
-                    'relative flex flex-col items-center justify-center gap-4   backdrop-sepia  backdrop-blur-3xl   grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5  ',
+                    'relative flex flex-col items-center justify-center gap-4   backdrop-sepia  backdrop-blur-3xl  ',
                     'cursor-pointer rounded-2xl border-2 border-dashed  ',
                     'px-8 py-14 transition-all duration-300 ease-out  ',
                     isDragging
@@ -433,45 +428,38 @@ const clearAll = async (): Promise<void> => {
                     >
                 </span>
 
+                <!-- Cloud icon -->
+                <div
+                    :class="[
+                        'flex h-16 w-16 items-center justify-center rounded-full',
+                        'transition-colors duration-300',
+                        isDragging ? 'bg-fuchsia-500/20' : 'bg-zinc-800',
+                        ]"
+                >
+                <svg
+                        class="h-8 w-8"
+                        :class="
+                        isDragging ? 'text-fuchsia-400' : 'text-violet-400'
+                        "
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.6"
+                        >
+                        <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 16v-8m0 0-3 3m3-3 3 3M6.75 19.5a4.5 4.5 0 0 1-1.632-8.685
+                        5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0
+                        0 1 18 19.5H6.75Z"
+                        />
+                    </svg>
+                    
+                </div>
                 
-          
                 
                 
-                
-                <div class="pointer-events-none text-center select-none col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5">
-                          <!-- Cloud icon -->
-
-                          <div class="flex  items-center justify-center col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 ">
-                              <div
-                                  :class="[
-                                      'flex h-16 w-16 items-center justify-center rounded-full   ',
-                                      'transition-colors duration-300',
-                                      isDragging ? 'bg-fuchsia-500/20' : 'bg-zinc-800',
-                                      ]"
-                              >
-              
-                              <svg
-                                      class="h-8 w-8"
-                                      :class="
-                                      isDragging ? 'text-fuchsia-400' : 'text-violet-400'
-                                      "
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="1.6"
-                                      >
-                                      <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M12 16v-8m0 0-3 3m3-3 3 3M6.75 19.5a4.5 4.5 0 0 1-1.632-8.685
-                                      5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0
-                                      0 1 18 19.5H6.75Z"
-                                      />
-                                  </svg>
-                                  
-                              </div>
-
-                          </div>
+                <div class="pointer-events-none text-center select-none">
                     <p class="text-base font-semibold text-zinc-200">
                         {{
                             isDragging
@@ -499,7 +487,7 @@ const clearAll = async (): Promise<void> => {
                         >
                             <div
                                 v-if="errorMessage"
-                                class="mt-4 flex w-full items-start gap-3 rounded-xl border border-red-700/50 bg-red-950/60 px-4 py-3 text-sm text-red-300 col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 "
+                                class="mt-4 flex w-full items-start gap-3 rounded-xl border border-red-700/50 bg-red-950/60 px-4 py-3 text-sm text-red-300"
                             >
                                 <svg
                                     class="mt-0.5 h-4 w-4 shrink-0"
@@ -526,18 +514,18 @@ const clearAll = async (): Promise<void> => {
                     
                             <!-- ── Preview grid ────────────────────────────────────────────────────── -->
                             <transition-group
-                            v-if="uploadedFiles.length"
-                           
-                            >
-                            <div
-                                v-for="file in uploadedFiles"
-                                :key="file.id"
-                                class="group relative  aspect-square overflow-hidden rounded-xl bg-zinc-800 ring-1 ring-zinc-700 transition-all duration-200 hover:ring-violet-500"
-                                name="grid-item"
+                                v-if="uploadedFiles.length"
                                 tag="div"
+                                name="grid-item"
+                                class=" mt-10 grid w-full max-w-2xl grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 bg-slate-900/25 dark:bg-violet-500/10 hover:cursor-default p-2 rounded-2xl border border-gray-300/10"
+                            >
+                                <div
+                                    v-for="file in uploadedFiles"
+                                    :key="file.id"
+                                    class="group relative aspect-square overflow-hidden rounded-xl bg-zinc-800 ring-1 ring-zinc-700 transition-all duration-200 hover:ring-violet-500"
                                 >
-                                <!-- Thumbnail -->
-                                <img
+                                    <!-- Thumbnail -->
+                                    <img
                                         :src="file.url"
                                         :alt="file.name"
                                         class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -586,22 +574,22 @@ const clearAll = async (): Promise<void> => {
                                     </div>
                                 </div>
                             </transition-group>
+                    
                             <!-- ── Clear all ───────────────────────────────────────────────────────── -->
                             <transition
                                 enter-active-class="transition duration-200 ease-out"
                                 enter-from-class="opacity-0 translate-y-2"
                                 enter-to-class="opacity-100 translate-y-0"
                             >
-                                <div v-if="uploadedFiles.length" class="mt-8 flex justify-center col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 ">
+                                <div v-if="uploadedFiles.length" class="mt-8 flex justify-center">
                                     <button
                                         @click="clearAll"
-                                        class="text-xs border hover:bg-black/50 rounded px-2 border-gray-300/10 dark:text-zinc-500 text-zinc-400 underline underline-offset-4 transition-colors duration-150 hover:text-red-400 "
+                                        class="text-xs dark:text-zinc-500 text-zinc-400 underline underline-offset-4 transition-colors duration-150 hover:text-red-400 "
                                     >
                                         Clear all uploads
                                     </button>
                                 </div>
                             </transition>
-                    
                 </div>
 
                
