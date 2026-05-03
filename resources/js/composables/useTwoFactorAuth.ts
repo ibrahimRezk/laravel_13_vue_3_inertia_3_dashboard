@@ -52,7 +52,7 @@ export const useTwoFactorAuth = (): UseTwoFactorAuthReturn => {
 
             manualSetupKey.value = key;
         } catch {
-            errors.value.push('Failed to fetch a setup key');
+            errors.value.push('Failed to fetch a setup key .......  Try again ');
             manualSetupKey.value = null;
         }
     };
