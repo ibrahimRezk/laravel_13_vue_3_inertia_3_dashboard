@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia';
 import { onMounted, ref } from 'vue';
 import { onUnmounted } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import ClientOnly from '@/components/ClientOnly.vue';
 
 // // import {
 // //     SidebarGroup,
@@ -166,12 +167,19 @@ const end = (el: HTMLElement): undefined => {
                                 />
 
                                 <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
-                                     {{mounted ? $t('general.' + item.title  )   : item.title}} 
+
+                                    <ClientOnly>
+    <span>{{ $t('general.' + item.title) }}</span>
+    <template #fallback>
+        <span>{{ item.title }}</span>
+    </template>
+</ClientOnly>
+
                                 </span>
                             </span>
 
                             <svg
-                                v-if="current_lang == 'ar'"
+                                v-if="current_lang == 'ar'" 
                                 :class="{
                                     '-rotate-90 ':
                                         item.open,
@@ -243,7 +251,12 @@ const end = (el: HTMLElement): undefined => {
                                         <Link :href="subItem.href"
                                         
                                             >
-                                    {{mounted ? $t('general.' + subItem.title  )   : subItem.title}} 
+                                    <ClientOnly>
+    <span>{{ $t('general.' + subItem.title) }}</span>
+    <template #fallback>
+        <span>{{ subItem.title }}</span>
+    </template>
+</ClientOnly>
 
                                         </Link>
                                     </SidebarMenuSubButton>
@@ -277,8 +290,12 @@ const end = (el: HTMLElement): undefined => {
                                 />
                                 
                                 <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
-                                     {{mounted ? $t('general.' + item.title  )   : item.title}} 
-                                     </span>
+<ClientOnly>
+    <span>{{ $t('general.' + item.title) }}</span>
+    <template #fallback>
+        <span>{{ item.title }}</span>
+    </template>
+</ClientOnly>                                     </span>
                             </span>
                         </span>
 
