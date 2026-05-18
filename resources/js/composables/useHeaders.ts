@@ -26,6 +26,7 @@ export default function (params: params) {
             const head = filteredHeaders.value.find(
                 (h: header) => h.name == header.name,
             );
+
             if (head !== undefined) {
                 finalHeaders.value.push(head);
             }
@@ -34,6 +35,7 @@ export default function (params: params) {
 
     const showColumnItems = (name: string) => {
         const head = finalHeaders.value.find((h: header) => h.name == name);
+        
         return head?.label === name;
     };
 

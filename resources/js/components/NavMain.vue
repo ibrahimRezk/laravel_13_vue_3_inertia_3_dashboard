@@ -5,13 +5,13 @@ import { onMounted, ref } from 'vue';
 import { onUnmounted } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 
-// import {
-//     SidebarGroup,
-//     SidebarGroupLabel,
-//     SidebarMenu,
-//     SidebarMenuButton,
-//     SidebarMenuItem,
-// } from '@/components/ui/sidebar';
+// // import {
+// //     SidebarGroup,
+// //     SidebarGroupLabel,
+// //     SidebarMenu,
+// //     SidebarMenuButton,
+// //     SidebarMenuItem,
+// // } from '@/components/ui/sidebar';
 
 import {
     SidebarMenu,
@@ -35,13 +35,28 @@ defineProps<{
 
 
 const useGeneral = useGeneralStore();
-const { animate } = storeToRefs(useGeneral);
-const { paginationNumber } = storeToRefs(useGeneral);
+const { animate }  = storeToRefs(useGeneral);
+const { paginationNumber }  = storeToRefs(useGeneral);
+
+
+router.on('finish' , ()=>{
+    animate.value = true;
+})
+
 
 onMounted(() => {
     animate.value = true;
 });
 
+
+
+
+
+// الـ SSR server يرندر الترجمة لأن الـ i18n plugin محمّل، لكن الـ client يرندر الـ key الخام لأن الـ language file لم يكتمل تحميله وقت الـ hydration — وClientOnly يحل هذا بجعل العنصر يُرندر فقط بعد الـ mount على الـ client.
+const mounted = ref(false)
+onMounted(() => { 
+    mounted.value = true 
+})
 
 
 const startLeaveAnimation = () => {
@@ -51,9 +66,12 @@ const startLeaveAnimation = () => {
     
 };
 
-const current_lang = ref(document
+const current_lang = ref()
+onMounted(()=>{
+    current_lang.value = document
     .getElementsByTagName('html')[0]
-    .getAttribute('lang'));
+    .getAttribute('lang');
+})
 
 
 const menus = ref<NavItem[]>(page.props.menus as NavItem[]);
@@ -148,7 +166,7 @@ const end = (el: HTMLElement): undefined => {
                                 />
 
                                 <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
-                                     {{ $t('general.' + item.title  )  }} 
+                                     {{mounted ? $t('general.' + item.title  )   : item.title}} 
                                 </span>
                             </span>
 
@@ -224,7 +242,9 @@ const end = (el: HTMLElement): undefined => {
                                     >
                                         <Link :href="subItem.href"
                                         
-                                            >{{ $t('general.' + subItem.title  ) }}
+                                            >
+                                    {{mounted ? $t('general.' + subItem.title  )   : subItem.title}} 
+
                                         </Link>
                                     </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
@@ -257,7 +277,8 @@ const end = (el: HTMLElement): undefined => {
                                 />
                                 
                                 <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
-                                     {{ $t('general.' + item.title  )  }} </span>
+                                     {{mounted ? $t('general.' + item.title  )   : item.title}} 
+                                     </span>
                             </span>
                         </span>
 

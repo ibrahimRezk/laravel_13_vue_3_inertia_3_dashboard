@@ -12,10 +12,12 @@ import { edit as editProfile } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
 import { useGeneralStore } from '@/stores';
 import type { NavItem } from '@/types';
+import { onMounted } from 'vue';
+
+
 
 const useGeneral = useGeneralStore();
-const { animate } = storeToRefs(useGeneral);
-
+const { animate }  = storeToRefs(useGeneral);
 
 
 const sidebarNavItems: NavItem[] = [

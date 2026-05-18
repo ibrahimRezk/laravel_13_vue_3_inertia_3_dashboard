@@ -4,16 +4,12 @@ import { SidebarTrigger } from '@/components/ui/sidebar';
 import type { BreadcrumbItemType } from '@/types'; 
 import SettingBar from './SettingBar.vue';
 
-withDefaults(
+
     defineProps<{
         breadcrumbs?: BreadcrumbItemType[];
         header?: string | number;
         subHeader?: string | number | null;
-    }>(),
-    {
-        breadcrumbs: () => [],
-    },
-);
+    }>()
 </script>
 
 <template>

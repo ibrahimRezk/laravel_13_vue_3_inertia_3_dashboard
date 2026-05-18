@@ -16,9 +16,16 @@ import { edit as profileLink } from '@/routes/profile';
 import { useInitials } from '@/composables/useInitials';
 
 import { useGeneralStore } from '@/stores';
+
+
 import { storeToRefs } from 'pinia';
+import { onMounted } from 'vue';
+
+
+
+
 const useGeneral = useGeneralStore();
-const { animate } = storeToRefs(useGeneral);
+const { animate }  = storeToRefs(useGeneral);
 
 const { getInitials } = useInitials();
 

@@ -8,10 +8,16 @@ import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
 
 import { useGeneralStore } from '@/stores';
 import type { BreadcrumbItemType, FlashMessagesType } from '@/types';
+import { onMounted } from 'vue';
+
+
 
 
 const useGeneral = useGeneralStore();
-const { animate } = storeToRefs(useGeneral);
+const { animate }  = storeToRefs(useGeneral);
+
+
+
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
     success?: FlashMessagesType['success'];

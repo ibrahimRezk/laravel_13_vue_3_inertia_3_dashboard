@@ -3,6 +3,11 @@
 return [
     'Dashboard' => 'Dashboard' ,
     'Nationalities' => 'Nationalities' ,
+    "General Settings" => "General Settings" ,
+    "system settings" => "system settings" ,
+    "Admins & Permissions" => "Admins & Permissions" ,
+    "System Admins" => "System Admins" ,
+    "Roles and Permissions" => "Roles and Permissions" ,
     'welcome' => 'welcome' ,
     'login' => 'login' ,
     'register' => 'register' ,

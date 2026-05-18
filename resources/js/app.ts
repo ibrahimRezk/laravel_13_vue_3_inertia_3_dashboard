@@ -1,20 +1,25 @@
 import { createInertiaApp } from '@inertiajs/vue3';
+import { i18nVue } from 'laravel-vue-i18n';
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
+import { initializeTheme } from '@/composables/useAppearance';
 import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
-
-import { i18nVue } from 'laravel-vue-i18n';
-import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
 import 'vue3-perfect-scrollbar/style.css';
-import { createPinia } from 'pinia';
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
-import { initializeTheme } from '@/composables/useAppearance';
 
 const pinia = createPinia();
-pinia.use(piniaPluginPersistedstate);
+// pinia.use(piniaPluginPersistedstate);// تعمل مشاكل في ssr , it is trying to access window on server 
+// ما هي pinia-plugin-persistedstate؟
+// هي plugin تحفظ state الـ Pinia تلقائياً في localStorage أو sessionStorage بحيث لا تضيع البيانات عند:
+
+// تحديث الصفحة (F5)
+// إغلاق التاب والرجوع إليه
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+
 
 createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
@@ -23,12 +28,13 @@ createInertiaApp({
     withApp(app) {
         app.use(pinia)
             .use(i18nVue, {
-                resolve: async (lang: string) => {
-                    const langs = import.meta.glob<{
-                        default: Record<string, any>;
-                    }>('../../lang/*.json');
+                // lang: 'en',
+                resolve: (lang: string) => {
+                    const langs = import.meta.glob('../../lang/*.json', {
+                        eager: true,
+                    }) as Record<string, { default: Record<string, string> }>;
 
-                    return await langs[`../../lang/${lang}.json`]();
+                    return langs[`../../lang/${lang}.json`].default ;
                 },
             })
             .use(PerfectScrollbarPlugin);

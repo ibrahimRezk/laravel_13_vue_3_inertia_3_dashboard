@@ -94,14 +94,28 @@ Route::delete('/delete-image/{id}', [ImageUploadController::class, 'destroy'])->
 });
 
 
-
+// storeToRefs(useGeneral)
 
 
 require __DIR__.'/settings.php';
 
-
+// check             // Nationality::factory(100)->create(); on a fresh project
+ 
 
 // breadcrumb multiple stage , darkmode delete modal
+
+
+
+/////////////////////////////////////important ////////////////////////
+// in appserviceprovider class
+// this part make problem with migration because this file run first before migration and find no roles folder so return error 
+        // $superAdmin = Role::first();
+        
+        // Gate::before(function ($user, $ability)use($superAdmin) {
+        //     return $user->hasRole($superAdmin->name) ? true : null;
+        //     // return $user->hasRole('Super Admin') ? true : null;
+        // });
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 // check pos and hrms userresource this line :

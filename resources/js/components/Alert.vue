@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePage } from '@inertiajs/vue3';
 import { trans } from 'laravel-vue-i18n';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import { toast, type ToastOptions } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
 
@@ -14,9 +14,11 @@ interface FlashMessages {
 const page = usePage();
 
 // Safely get direction from HTML tag
-const direction = ref(
-    document.getElementsByTagName('html')[0]?.getAttribute('dir') || 'ltr'
-);
+const direction = ref();
+
+onMounted(()=>{
+    direction.value = document.getElementsByTagName('html')[0]?.getAttribute('dir') || 'ltr'
+})
 
 // Helper to trigger toast to keep code DRY
 const showToast = (message: string, type: 'success' | 'error') => {

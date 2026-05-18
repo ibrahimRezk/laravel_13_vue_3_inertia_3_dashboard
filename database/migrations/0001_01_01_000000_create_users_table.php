@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('profile_type')->nullable();
             $table->unsignedBigInteger('profile_id')->nullable();
             $table->softDeletes();
-            $table->string('avatar')->nullable()->after('email');
+            $table->string('avatar')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

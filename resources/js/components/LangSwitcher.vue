@@ -3,16 +3,19 @@
 import { loadLanguageAsync } from 'laravel-vue-i18n';
 import {  router  } from '@inertiajs/vue3';
 import { lang } from '@/routes';
-import {   onUnmounted, ref } from 'vue';
+import {   onMounted, onUnmounted, ref } from 'vue';
 import Button from './ui/button/Button.vue';
 import Dropdown from './Dropdown.vue';
 import DropdownLink from './DropdownLink.vue';
 
 
 
-const current_lang = ref(document
-    .getElementsByTagName('html')[0]
-    .getAttribute('lang'));
+
+const current_lang = ref(); 
+
+onMounted(()=>{
+    current_lang.value = document.getElementsByTagName('html')[0].getAttribute('lang')
+})
 
 
 const loadLanguage = async (selectedLang: string) => {

@@ -10,8 +10,18 @@ import Th from '@/components/Table/Th.vue';
 import { useGeneralStore } from '@/stores';
 import type { TableProps } from '@/types';
 import type { Link } from '@/types';
+
+
 const useGeneral = useGeneralStore();
-const { animate } = storeToRefs(useGeneral);
+const { animate }  = storeToRefs(useGeneral);
+
+// let useGeneral = null;
+// let  animate = null;
+
+// onMounted(()=>{
+//      useGeneral = useGeneralStore();
+//       animate  = storeToRefs(useGeneral);
+// })
 
 // const props = defineProps({
 //     headers: {
@@ -219,7 +229,7 @@ const headerTextColor = (index: number) => {
 
 <template>
     <transition name="page" mode="out-in" appear>
-        <div v-if="animate">
+        <div v-if="true">
             <div class="flex flex-wrap">
                 <div class="w-full max-w-full flex-none">
                     <div

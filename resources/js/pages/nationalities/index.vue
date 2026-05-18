@@ -386,6 +386,7 @@ const startLeaveAnimation = () => {
             class="mt-2"
         >
             <template #title>
+                
                 <span
                     v-if="
                         Object.keys(props.filters).length == 0 ||

@@ -43,6 +43,9 @@ class HandleInertiaRequests extends Middleware
                 'token' => csrf_token(),
             ],
 
+            'locale' => app()->getLocale(), // 👈 e.g. "en"
+
+
            
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
              'messages' => [

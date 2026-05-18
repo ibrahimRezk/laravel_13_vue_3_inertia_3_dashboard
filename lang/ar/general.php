@@ -3,6 +3,11 @@
 return [
     'Dashboard' => 'الرئيسية' ,
     'Nationalities' => 'الجنسيات' ,
+    "General Settings"=> 'اعدادات عامة' ,
+    "system settings" => 'اعدادات النظام' ,
+    "Admins & Permissions" => 'الإدارة والصلاحيات' ,
+    "System Admins" => 'مديري النظام' ,
+    "Roles and Permissions" => 'الأدوار والصلاحيات' ,
     'welcome' => 'مرحبا بك في تطبيقنا',
     'login' => 'تسجيل الدخول',
     'register' => 'إنشاء حساب',

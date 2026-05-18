@@ -9,35 +9,35 @@ import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
 
 
 
-import { useGeneralStore } from '@/stores';
-const useGeneral = useGeneralStore();
-const { animate } = storeToRefs(useGeneral);
-// const { paginationNumber } = storeToRefs(useGeneral);
+// import { useGeneralStore } from '@/stores';
+// const useGeneral = useGeneralStore();
+// const { animate } = storeToRefs(useGeneral);
+// // const { paginationNumber } = storeToRefs(useGeneral);
 
-onMounted(() => {
-    animate.value = true;
-});
+// onMounted(() => {
+//     animate.value = true;
+// });
 
-const removeListener = router.on('navigate' , ()=> {
-    animate.value = true
-    })
+// const removeListener = router.on('navigate' , ()=> {
+//     animate.value = true
+//     })
 
-// Fires when clicking the same page link
-const removeStart = router.on('finish', (event) => {
-    const visitUrl = event.detail.visit.url.pathname
-    const currentUrl = window.location.pathname
+// // Fires when clicking the same page link
+// const removeStart = router.on('finish', (event) => {
+//     const visitUrl = event.detail.visit.url.pathname
+//     const currentUrl = window.location.pathname
     
-    if (visitUrl === currentUrl) {
-        animate.value = true
-    }
-})
+//     if (visitUrl === currentUrl) {
+//         animate.value = true
+//     }
+// })
 
 
-// // Clean up when component is destroyed
-onUnmounted(() => {
-    removeListener()
-    removeStart()
-})
+// // // Clean up when component is destroyed
+// onUnmounted(() => {
+//     removeListener()
+//     removeStart()
+// })
 
 
 const { header , subHeader } = usePageHeader()
