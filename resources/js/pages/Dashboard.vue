@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/vue3';
 import ImageUpload from '@/components/ImageUpload.vue';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { useBreadcrumbs } from '@/composables/useBreadcrumbs';
+import { usePageHeader } from '@/composables/usePageHeader';
 import { dashboard } from '@/routes';
 
 const { breadcrumbs } = useBreadcrumbs();
@@ -13,6 +14,13 @@ breadcrumbs.value = [
         href: dashboard(),
     },
 ];
+
+
+const { header } = usePageHeader();
+header.value = null;
+
+
+
 
 // defineOptions({
 //     layout: {
