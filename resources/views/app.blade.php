@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
-        <script>
+        {{-- <script>
             (function() {
                 const appearance = '{{ $appearance ?? "system" }}';
 
@@ -16,6 +16,32 @@
                         document.documentElement.classList.add('dark');
                     }
                 }
+            })();
+        </script> --}}
+
+
+
+        {{-- ✅ هذا الـ script يجب أن يكون أول شيء في الـ head --}}
+        <script>
+            // Apply theme before page renders to prevent flash
+            (function() {
+                const appearance = localStorage.getItem('appearance') || 'system';
+
+                if (appearance === 'system') {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    document.documentElement.classList.toggle('dark', prefersDark);
+                } else {
+                    document.documentElement.classList.toggle('dark', appearance === 'dark');
+                }
+            })();
+        </script>
+
+        {{-- ✅ تطبيق اللغة والاتجاه قبل الرندر --}}
+        <script>
+            (function() {
+                const locale = localStorage.getItem('locale') || '{{ app()->getLocale() }}';
+                document.documentElement.lang = locale;
+                document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
             })();
         </script>
 
