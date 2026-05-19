@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 
-const header = ref(null)
-const subHeader = ref(null)
+const header = ref<string | null>(null)
+const subHeader = ref<string | null>(null)
 
 export function usePageHeader() {
     return { header , subHeader }

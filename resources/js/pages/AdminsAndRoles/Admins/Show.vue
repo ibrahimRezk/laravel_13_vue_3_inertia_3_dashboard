@@ -21,7 +21,7 @@ import type {
     permissions,
 } from '@/types';
 
-interface rolePermission {
+interface rolePermission { 
     id: number;
     name: string;
 }
@@ -191,15 +191,28 @@ const props = withDefaults(defineProps<Props>(), {
 // ];
 
 const { header } = usePageHeader();
-header.value = props.title;
+header.value  = props.title;
 
-const { breadcrumbs } = useBreadcrumbs();
-breadcrumbs.value = [
+
+
+    
+    const { breadcrumbs } = useBreadcrumbs();
+    breadcrumbs.value = [
     {
-        title: props.title,
-        href: AdminController.show(props.item.id),
+        title: trans('general.System Admins'),
+        href: AdminController.index(),
+    },
+    {
+        title: props?.item?.name as object,
+        href: '#',
+        // href: AdminController.show(props.item.id),
     },
 ];
+
+
+
+
+
 
 // defineOptions({
 //     layout: {

@@ -81,7 +81,7 @@ breadcrumbs.value = [
         href: RolesController.index(),
     },
     {
-        title: props?.item?.slug,
+        title: props?.item?.slug, 
         href: '#',
         // href: AdminController.show(props.item.id),
     },
