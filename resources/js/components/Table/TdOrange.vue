@@ -29,7 +29,7 @@ const viewShadow = computed(() => {
 });
 
 const textColor = computed(() => {
-    return props.light ? "text-yellow-50" : "text-gray-950 font-bold dark:text-yellow-50 dark:font-normal";
+    return props.light ? "text-yellow-50" : "text-gray-500 ";
 });
 
 // whitespace-nowrap is going to keep all text in the row in one line  and if the text is too long it still in one line

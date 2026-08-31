@@ -24,7 +24,7 @@ defineProps({
 </script>
 
 <template>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center space-x-">
         <slot name="button" />
         <slot name="icon" />
         <button v-if="showEdit" class="text-yellow-600 mx-2 hover:cursor-pointer">

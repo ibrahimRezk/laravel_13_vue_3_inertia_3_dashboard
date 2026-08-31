@@ -26,7 +26,7 @@ class NationalityFactory extends Factory
         $data['name']['ar'] = fake('arabic')->name() ;
         $data['active'] =  random_int(0,1) ;
         $data['added_by'] = 1 ;
-        $data['created_at'] = 1 ;
+      
         return $data;
     }
 

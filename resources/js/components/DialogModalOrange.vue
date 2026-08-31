@@ -15,7 +15,7 @@ interface props {
 }
 const props = withDefaults(defineProps<props>(),{
     title: '',
-    width: 'w-full',
+    width: 'w-full'
 })
 
 </script>
@@ -28,10 +28,11 @@ const props = withDefaults(defineProps<props>(),{
             </DialogTrigger> -->
 
         <DialogContent
-            :class="`top-16 max-h-[calc(100vh-5rem)]  translate-y-0! overflow-auto border-0 from-[#998F83] to-[#998F83] p-4 md:max-w-3xl ltr:bg-linear-to-l rtl:bg-linear-to-r dark:from-gray-900 dark:via-gray-700 dark:to-gray-900 ${width} `"
+            class="top-16 max-h-[calc(100vh-5rem)]  translate-y-0! overflow-auto border-0 from-orange-300 to-zinc-800 p-4 md:max-w-3xl ltr:bg-linear-to-l rtl:bg-linear-to-r dark:from-gray-900 dark:via-gray-700 dark:to-gray-900"
+            :class="props.width"
         >
             <DialogHeader
-                class="flex items-center justify-center rounded border border-zinc-400/30  via-zinc-900 p-2 text-center text-lg text-white shadow-md ltr:bg-linear-to-l rtl:bg-linear-to-r dark:border dark:from-transparent dark:via-slate-900 dark:to-transparent"
+                class="flex items-center justify-center rounded border-zinc-400/50 from-orange-100 to-zinc-900 p-2 text-center text-lg text-white shadow-md ltr:bg-linear-to-l rtl:bg-linear-to-r dark:border dark:from-transparent dark:via-slate-900 dark:to-transparent"
             >
                 <DialogTitle>{{title}}</DialogTitle>
                 <!-- <DialogDescription>
@@ -40,10 +41,10 @@ const props = withDefaults(defineProps<props>(),{
                     </DialogDescription> -->
             </DialogHeader>
             <div
-                class="rounded-md border-gray-200 from-orange-100 to-orange-100 p-3 shadow-lg ltr:bg-linear-to-l rtl:bg-linear-to-r dark:border dark:border-gray-200/20 dark:from-gray-500 dark:via-transparent dark:to-gray-500"
+                class="rounded-md border-gray-200 from-orange-100 to-zinc-700 p-3 shadow-lg ltr:bg-linear-to-l rtl:bg-linear-to-r dark:border dark:border-gray-200/20 dark:from-gray-500 dark:via-transparent dark:to-gray-500"
             >
                 <div
-                    class="rounded-md border-gray-200/30 from-[#5D5147] to-[#5D5147] p-4 shadow-2xl shadow-zinc-800 drop-shadow-md  ltr:bg-linear-to-l rtl:bg-linear-to-r dark:border dark:from-gray-900 dark:via-zinc-900 dark:to-gray-900"
+                    class="rounded-md border-gray-200/30 from-orange-400 to-zinc-900 p-4 shadow-2xl shadow-zinc-800 drop-shadow-md lg:max-w-3xl ltr:bg-linear-to-l rtl:bg-linear-to-r dark:border dark:from-gray-900 dark:via-zinc-900 dark:to-gray-900"
                 >
                     <div class="grid gap-4 text-gray-300">
                         <slot />
