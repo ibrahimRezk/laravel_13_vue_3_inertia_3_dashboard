@@ -16,6 +16,13 @@ class NationalityRequest extends FormRequest
         return true;
     }
 
+      protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'active' => $this->boolean('active'),
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,6 +34,7 @@ class NationalityRequest extends FormRequest
         // dd($model);
         return [
             'name.*' => ['bail', 'required', 'string', 'max:255', UniqueTranslationRule::for('nationalities', 'name')->ignore($model?->id)],
+            'active' => [ 'required' , 'boolean']
 
         ];
     }

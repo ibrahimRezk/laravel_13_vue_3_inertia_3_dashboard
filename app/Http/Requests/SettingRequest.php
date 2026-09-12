@@ -15,6 +15,13 @@ class SettingRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+{
+    $this->merge([
+        'active' => $this->boolean('active'),
+    ]);
+}
+
     /**
      * Get the validation rules that apply to the request.
      *

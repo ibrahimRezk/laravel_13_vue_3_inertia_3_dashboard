@@ -22,6 +22,17 @@ class AdminRequest extends FormRequest
         return true;
     }
 
+
+          protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'active' => $this->boolean('active'),
+        ]);
+    }
+
+
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -45,6 +56,7 @@ class AdminRequest extends FormRequest
             'phone' => ['bail', 'nullable', 'string', 'max:255'],
 
             'roleId' => ['bail',  'required', Rule::exists(Role::class, 'id')],
+            'active' => [ 'required' , 'boolean']
 
 
         ];

@@ -2,56 +2,42 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Actions\Role\RolePermissionAction;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\Middleware;
 
 class DetachPermissionFromRoleController extends Controller implements HasMiddleware
 {
-             public static function middleware(): array
+    public static function middleware(): array
     {
         return [
             new Middleware('can:edit role'),
         ];
     }
 
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, RolePermissionAction $action)
     {
+        $validated = $request->validate([
+            'roleId'       => ['required', 'integer', 'exists:roles,id'],
+            'permissionId' => ['required', 'integer', 'exists:permissions,id'],
+            'type'         => ['required', 'integer', 'in:1,2'],
+            'userId'       => ['required_if:type,2', 'integer', 'exists:users,id'],
+        ]);
 
-        
         try {
-            DB::beginTransaction();
-            $role = Role::find($request->roleId);
-            if($role->name == 'Super Admin')
-            {
-                abort(403 , 'error');
-            }
-
-            $permission = Permission::findById($request->permissionId);
-
-            if($permission != null)
-            if ($request->type == 1) // normal permission to be assigned to a role
-            {
-                $permission->removeRole($request->roleId);
-            }
-            elseif ($request->type == 2)    // special permission to be assigned to a user model
-            {
-                $user = User::without(['media', 'profile'])->find($request->userId);
-                $user->revokePermissionTo($permission->name);
-            }
-            DB::commit();
+            $action->detach(
+                $validated['roleId'],
+                $validated['permissionId'],
+                $validated['type'],
+                $validated['userId'] ?? null,
+            );
 
             return ['message' => 'permissions updated successfully', 'result' => 'success'];
         } catch (\Throwable $th) {
-            DB::rollback();
+            report($th);
 
             return ['message' => 'sorry something went wrong', 'result' => 'error'];
         }
-        // return redirect()->back()->with('success', 'permissions updated successfully');
     }
 }

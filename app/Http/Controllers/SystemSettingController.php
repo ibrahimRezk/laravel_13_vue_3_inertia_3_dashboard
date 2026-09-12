@@ -2,124 +2,47 @@
 
 namespace App\Http\Controllers;
 
-
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Inertia\Inertia;
 use App\Models\Setting;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 use App\Http\Requests\SettingRequest;
-use App\Http\Traits\AttachFilesTrait;
 use App\Http\Resources\SettingResource;
+use App\Actions\Setting\UpdateSettingAction;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
 class SystemSettingController extends Controller implements HasMiddleware
 {
-    use AttachFilesTrait;
-
-
     private string $routeResourceName = 'settings';
 
-    // public function __construct()
-    // {
-    //     $this->middleware('can:view settings')->only('index');
-    //     $this->middleware('can:edit setting')->only(['store']);
-    // }
-
-            public static function middleware(): array
+    public static function middleware(): array
     {
         return [
-            // Apply 'can' middleware to specific methods
             new Middleware('can:view system settings', only: ['index']),
-            new Middleware('can:edit system settings', only: [ 'store']),
-
+            new Middleware('can:edit system settings', only: ['store']),
         ];
     }
 
-
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $settings = Setting::first();
 
-        // $breadcrumbs = Breadcrumbs::render('settings');
-
-        // ddd($settings);
         return Inertia::render('GeneralSettings/Settings/Index', [
-            'title' => 'System Settings',
-            'item' => $settings != null ? new SettingResource($settings) : null,
-            'logoPath' => asset('attachments/logo/' . $settings?->logo) ?? '',
-            // 'routeResourceName' => $this->routeResourceName,
+            'title'    => 'System Settings',
+            'item'     => $settings ? new SettingResource($settings) : null,
+            'logoPath' => $settings?->logo ? asset('attachments/logo/' . $settings->logo) : '',
             'can' => [
                 'edit' => $request->user()->can('edit settings'),
             ],
-            // 'breadcrumbs' => $breadcrumbs['breadcrumbs'],
         ]);
     }
 
-
-    public function store(SettingRequest $request)
+    public function store(SettingRequest $request, UpdateSettingAction $action): RedirectResponse
     {
+        $action->execute($request, $request->validated());
 
-
-        $oldSettings = Setting::first();
-
-        DB::beginTransaction();
-        try {
-
-            if ($request->hasfile('logo')) {
-                if ($oldSettings?->logo != null) {
-                    $this->deleteFile($oldSettings->logo, 'logo');
-                }
-                $logo_name = $this->uploadFile($request, 'logo', 'logo');
-            } else {
-                $logo_name = $oldSettings->logo ?? '';
-            }
-
-            Setting::updateOrCreate(
-                [
-                    'id' => $oldSettings->id ?? 1,
-
-                ],
-                [
-                    'name' => [
-                        'ar' => $request->name['ar'],
-                        'en' => $request->name['en'],
-                    ],
-                    'address' => [
-                        'ar' => $request->address['ar'],
-                        'en' => $request->address['en'],
-                    ],
-   
-
-                    'active' => $request->active,
-                    'phone' => $request->phone,
-                    'email' => $request->email,
-
-              
-                    'weekendDays' => $request->weekendDays,
-                    // 'vacationsDates' => $vacationsDates,
-
-                    'logo' => $logo_name,
-                    'added_by' => $oldSettings != null ? $oldSettings->added_by : auth()->user()->id,
-                    'updated_by' => $oldSettings != null ? auth()->user()->id : null,
-
-
-
-                ]
-            );
-
-
-
-            DB::commit();
-
-            return back()->with('success', 'item updated successfully');
-        } catch (\Exception $e) {
-            DB::rollback();
-            return redirect()->back()->with(['error' => $e->getMessage()]);
-        }
+        return back()->with('success', 'item updated successfully');
     }
-
-
-
 }

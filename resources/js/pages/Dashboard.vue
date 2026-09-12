@@ -78,7 +78,7 @@ const maxUploadImageCount = 10;
     <div class="col-span-2">
         <ImageUpload
             :images="props.item?.images"
-            model-type="App\Models\User"
+            model-type="user"
             :model-id="props.item?.id"
             :maxFiles="maxUploadImageCount"
         />

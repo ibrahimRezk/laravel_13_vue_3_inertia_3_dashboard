@@ -3,184 +3,109 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\PagePermission;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
+use App\Http\Requests\RolesRequest;
+use App\Http\Resources\RoleResource;
+use App\Http\Resources\PagePermissionResource;
+use App\QueryBuilders\RoleQueryBuilder;
+use App\Actions\Role\CreateRoleAction;
+use App\Actions\Role\UpdateRoleAction;
+use App\Actions\Role\DeleteRoleAction;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
-use Inertia\Inertia;
-use Illuminate\Http\Request;
-use App\Models\PagePermission;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\RolesRequest;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\RoleResource;
-// use Diglactic\Breadcrumbs\Breadcrumbs;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Database\Eloquent\Builder;
-use App\Http\Resources\PermissionResource;
-use App\Http\Resources\PagePermissionResource;
 
 class RolesController extends Controller implements HasMiddleware
 {
     private string $routeResourceName = 'roles';
 
-    // public function __construct()
-    // {
-    //     $this->middleware('can:view roles')->only('index');
-    //     $this->middleware('can:create role')->only(['create', 'store']);
-    //     $this->middleware('can:edit role')->only(['edit', 'update']);
-    //     $this->middleware('can:delete role')->only('destroy');
-    // }
-
-
-        public static function middleware(): array
+    public static function middleware(): array
     {
         return [
-            // Apply 'can' middleware to specific methods
             new Middleware('can:view roles', only: ['index']),
-            new Middleware('can:create role', only: ['create' , 'store']),
-            new Middleware('can:edit role', only: ['edit' , 'update']),
+            new Middleware('can:create role', only: ['create', 'store']),
+            new Middleware('can:edit role', only: ['edit', 'update']),
             new Middleware('can:delete role', only: ['destroy']),
         ];
     }
 
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
-        $roles = Role::query()
-            ->select([
-                'slug',
-                'id',
-                'used_before',
-                'created_at',
-            ])
-            ->when($request->name, fn(Builder $builder, $name) => $builder->whereAny(['slug->ar', 'slug->en'], 'like', "%{$name}%"))
-
-
-            // ->orderBy('id' , 'ASC')
-            ->oldest('id')
+        $roles = RoleQueryBuilder::forRequest($request)
             ->paginate(pagination());
 
-
-
-        // $breadcrumbs = Breadcrumbs::render('roles');
-
-
         return Inertia::render('AdminsAndRoles/Roles/Index', [
-
-            'title' => 'roles',
-            // 'title' => 'roles and permissions',
-            'items' => RoleResource::collection($roles),
-            'headers' => [
-                [
-                    'label' => '#',
-                    'name' => '#',
-                ],
-                [
-                    'label' => 'name',
-                    'name' => 'name', ////// make it like the name in database because we will use it in filters
-                ],
-                [
-                    'label' => 'created_at',
-                    'name' => 'created_at',
-                ],
-                [
-                    'label' => 'actions',
-                    'name' => 'actions',
-                ],
-            ],
-            // 'breadcrumbs' => $breadcrumbs['breadcrumbs'],
-
-            'filters' => (object) $request->all(),
+            'title'             => 'roles',
+            'items'             => RoleResource::collection($roles),
+            'headers'           => $this->indexHeaders(),
+            'filters'           => (object) $request->all(),
             'routeResourceName' => $this->routeResourceName,
-            'method' => 'index',
+            'method'            => 'index',
             'can' => [
                 'create' => true,
-                // 'create' => $request->user()->can('create role'),
             ],
         ]);
     }
 
-    public function create()
+    public function create(): Response
     {
-        // $breadcrumbs = Breadcrumbs::render('newRole');
-
         return Inertia::render('AdminsAndRoles/Roles/Create', [
-            'edit' => false,
-            'title' => 'add role',
+            'edit'              => false,
+            'title'             => 'add role',
             'routeResourceName' => $this->routeResourceName,
-            // 'breadcrumbs' => $breadcrumbs['breadcrumbs'],
-
         ]);
     }
 
-    public function store(RolesRequest $request)
+    public function store(RolesRequest $request, CreateRoleAction $action): RedirectResponse
     {
+        $role = $action->execute($request->validated());
 
-        // ddd($request);
-        $data["name"] = $request->name;
-        $data["slug"]["ar"] = $request->slug['ar'];
-        $data["slug"]["en"] = $request->slug['en'];
-
-        $data["guard_name"] = 'web';
-
-        $role = Role::create($data);
-
-        return redirect()->route($this->routeResourceName . '.edit', $role)->with('success', 'Role created successfully.');
+        return redirect()
+            ->route($this->routeResourceName . '.edit', $role)
+            ->with('success', 'Role created successfully.');
     }
 
-
-    public function edit(Role $role)
+    public function edit(Role $role): Response
     {
         $role->load(['permissions:permissions.id,permissions.name']);
-        // $breadcrumbs = Breadcrumbs::render('editRole');
 
         return Inertia::render('AdminsAndRoles/Roles/Create', [
-            'edit' => true,
-            'title' => 'edit role and permissions',
-            // 'breadcrumbs' => $breadcrumbs['breadcrumbs'],
-
-            'item' => new RoleResource($role),
-            'routeResourceName' => $this->routeResourceName,
-            // 'permissions' => PermissionResource::collection(Permission::oldest('id')->get(['id', 'name'])),
-            // 'pagesPermissions' => PagePermission::all(),
-            'pagesPermissions' => PagePermissionResource::collection(PagePermission::where('type', 1)->get(['id', 'name', 'permissions'])),
-            'specialPermissions' => PagePermissionResource::collection(PagePermission::where('type', 2)->get(['id', 'name', 'permissions'])),
+            'edit'               => true,
+            'title'              => 'edit role and permissions',
+            'item'               => new RoleResource($role),
+            'routeResourceName'  => $this->routeResourceName,
+            'pagesPermissions'   => PagePermissionResource::collection(
+                PagePermission::where('type', 1)->get(['id', 'name', 'permissions'])
+            ),
+            'specialPermissions' => PagePermissionResource::collection(
+                PagePermission::where('type', 2)->get(['id', 'name', 'permissions'])
+            ),
         ]);
     }
 
-    public function update(RolesRequest $request, Role $role)
+    public function update(RolesRequest $request, Role $role, UpdateRoleAction $action): RedirectResponse
     {
-        $data["name"] = $request->name;
-        $data["slug"]["ar"] = $request->slug['ar'];
-        $data["slug"]["en"] = $request->slug['en'];
+        $action->execute($role, $request->validated());
 
-        $role->update($data);
-
-        return redirect()->route($this->routeResourceName . '.index')->with('success', 'Role updated successfully');
+        return redirect()
+            ->route($this->routeResourceName . '.index')
+            ->with('success', 'Role updated successfully');
     }
 
-    public function destroy(Role $role)
+    public function destroy(Role $role, DeleteRoleAction $action): RedirectResponse
     {
-        // dd($role);
-        DB::beginTransaction();
-        try {
+        $action->execute($role);
 
+        return redirect()->back()->with('success', 'item deleted successfully');
+    }
 
-            // if ($role->name == 'Super Admin') {
-            if ($role->id == 1) {
-                abort(403, 'general.can not delete super admin role');
-            }
-
-            if (!auth()->user()->can('delete user') || $role->used_before == true) {
-                abort(403, 'general.you can not delete an item that has previous activity on the system or you do not have permission');
-            }
-
-
-            $role->delete();
-
-            DB::commit();
-            return redirect()->back()->with('success', 'item deleted successfully');
-        } catch (\Throwable $th) {
-            DB::rollback();
-            return redirect()->back()->with('error', $th->getMessage());
-        }
+    private function indexHeaders(): array
+    {
+        return collect(['#', 'name', 'created_at', 'actions'])
+            ->map(fn ($label) => ['label' => $label, 'name' => $label])
+            ->all();
     }
 }
