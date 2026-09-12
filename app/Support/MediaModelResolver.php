@@ -14,7 +14,7 @@ class MediaModelResolver
      * through this endpoint must be listed here on purpose.
      */
     private const ALLOWED_MODELS = [
-        'product' => \App\Models\Product::class,
+        // 'product' => \App\Models\Product::class,
         'user'    => \App\Models\User::class,
 
         // 'article' => \App\Models\Article::class,

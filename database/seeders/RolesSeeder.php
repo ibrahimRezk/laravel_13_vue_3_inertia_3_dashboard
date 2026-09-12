@@ -112,32 +112,7 @@ class RolesSeeder extends Seeder
 
 
 
-
-                ////////////////////// special permissions ////////////////////
-
-        // بداية المتغيرات اختصار للاسم
-        // variables starts with name shortcut
         
-        
-                $VSPermission = Permission::create(['name' => 'view system settings']);
-                $VSPageData['name']['en'] = 'view system settings';
-                $VSPageData['name']['ar'] = 'عرض اعدادات النظام';
-                $VSPageData['permissions']['id'] = $VSPermission->id;
-                $VSPageData['type'] = 2;
-                PagePermission::create($VSPageData);
-
-        $ESPermission = Permission::create(['name' => 'edit system settings']);
-        $ESPageData['name']['en'] = 'edit system settings';
-        $ESPageData['name']['ar'] = 'تعديل اعدادات النظام';
-        $ESPageData['permissions']['id'] = $ESPermission->id;
-        $ESPageData['type'] = 2;
-        PagePermission::create($ESPageData);
-        
-
-
-
-
-
 
         $adminsPagePermissions = [
             'view admins',
@@ -158,6 +133,9 @@ class RolesSeeder extends Seeder
         PagePermission::create($adminsPageData);
 
 
+
+
+
         $usersPagePermissions = [
             'view users',
             'create user',
@@ -176,6 +154,52 @@ class RolesSeeder extends Seeder
         $usersPageData['permissions'] = $usersPagePermissionsIds;
         PagePermission::create($usersPageData);
 
+
+
+
+
+
+
+
+
+                ////////////////////// special permissions ////////////////////
+
+        // بداية المتغيرات اختصار للاسم
+        // variables starts with name shortcut
+        
+        
+                $VSPermission = Permission::create(['name' => 'view system settings']);
+                $VSPageData['name']['en'] = 'view system settings';
+                $VSPageData['name']['ar'] = 'عرض اعدادات النظام';
+                $VSPageData['permissions']['id'] = $VSPermission->id;
+                $VSPageData['type'] = 2;
+                PagePermission::create($VSPageData);
+
+
+                
+        $ESPermission = Permission::create(['name' => 'edit system settings']);
+        $ESPageData['name']['en'] = 'edit system settings';
+        $ESPageData['name']['ar'] = 'تعديل اعدادات النظام';
+        $ESPageData['permissions']['id'] = $ESPermission->id;
+        $ESPageData['type'] = 2;
+        PagePermission::create($ESPageData);
+        
+
+
+        $UMPermission = Permission::create(['name' => 'upload media']);
+        $UMPageData['name']['en'] = 'upload media';
+        $UMPageData['name']['ar'] = 'رفع صور وفيديوهات';
+        $UMPageData['permissions']['id'] = $UMPermission->id;
+        $UMPageData['type'] = 2;
+        PagePermission::create($UMPageData);
+
+        $DMPermission = Permission::create(['name' => 'delete media']);
+        $DMPageData['name']['en'] = 'delete media';
+        $DMPageData['name']['ar'] = 'حذف صور وفيديوهات';
+        $DMPageData['permissions']['id'] = $DMPermission->id;
+        $DMPageData['type'] = 2;
+        PagePermission::create($DMPageData);
+        
 
     }
 }

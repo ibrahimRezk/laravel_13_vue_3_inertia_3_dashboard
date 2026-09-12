@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actions\Media\DeleteMediaAction;
 use App\Actions\Media\StoreMediaAction;
 use App\Support\MediaModelResolver;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -14,12 +13,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ImageUploadController extends Controller implements HasMiddleware
 {
-        use AuthorizesRequests;
-
     public static function middleware(): array
     {
         return [
-            new Middleware('auth'),
+            new Middleware('can:upload media', only: ['store']),
+            new Middleware('can:delete media', only: ['destroy']),
         ];
     }
 
@@ -33,9 +31,6 @@ class ImageUploadController extends Controller implements HasMiddleware
         ]);
 
         $model = $resolver->resolve($validated['modelType'], $validated['modelId']);
-
-        // Authorize against the resolved model itself, not just the route.
-        // $this->authorize('update', $model);
 
         $collection = $validated['collection'] ?: 'default';
         $media = $action->execute($request, $model, $collection);
@@ -58,10 +53,6 @@ class ImageUploadController extends Controller implements HasMiddleware
         if (! $media) {
             return response()->json(['success' => true]);
         }
-
-        // The media's owning model, e.g. $media->model, is what must be
-        // authorized against — not the Media row itself.
-        // $this->authorize('update', $media->model);
 
         $action->execute($media);
 
