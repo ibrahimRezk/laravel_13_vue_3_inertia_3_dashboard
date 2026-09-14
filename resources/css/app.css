@@ -151,7 +151,7 @@
     --accent-foreground: hsl(0 0% 9%);
     --destructive: hsl(0 84.2% 60.2%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(0 0% 60%);
+    --border: hsla(0, 0%, 60%, 0.656);
     --input: hsl(0 0% 89.8%);
     --ring: hsla(0, 0%, 4%, 0.322);
     --chart-1: hsl(12 76% 61%);
@@ -161,13 +161,13 @@
     --chart-5: hsl(27 87% 67%);
     --radius: 0.5rem;
     
-    --sidebar-background: hsl(34 9% 37%); /* all sidebar background from top to buttum */
+    --sidebar-background: hsl(34 9% 20%); /* all sidebar background from top to buttum */
     /* --sidebar-background: hsl(0 0% 98%); */
     --sidebar-primary: hsl(0 0% 10%); /* logo background color */
     --sidebar-primary-foreground: hsl(0, 100%, 50%);
     --sidebar-accent: hsl(0 0% 94%); /* inactive menu and submenu hover background color , and active menu and submenu background color */
     --sidebar-accent-foreground: hsl(0, 0%, 0%);   /* inactive menu and submenu hover text color , and active menu and submenu text color */
-    --sidebar-foreground: hsl(240, 5%, 8%);  /* in active menu an submenu text */
+    --sidebar-foreground: hsl(0, 0%, 75%);  /* in active menu an submenu text */
     /*--sidebar-menu-subitem: hsl(30, 9%, 36%); */ /* in active submenu */ 
     
     --sidebar-border: hsl(0 0% 91%);
@@ -193,7 +193,7 @@
     --accent-foreground: hsl(0 0% 98%);
     --destructive: hsl(0 84% 60%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(0 0% 15%);
+    --border: hsl(0, 1%, 21%);
     --input: hsl(0, 0%, 27%);
     --ring: hsl(0 0% 83.1%);
     --chart-1: hsl(220 70% 50%);

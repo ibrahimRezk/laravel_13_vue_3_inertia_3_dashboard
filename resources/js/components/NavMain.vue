@@ -25,7 +25,7 @@ import {
 
 // import { urlIsActive } from '@/lib/utils';
 import { useGeneralStore } from '@/stores';
-import type{  NavItem, SubMenuItem } from '@/types';
+import type { NavItem, SubMenuItem } from '@/types';
 
 
 const page = usePage();
@@ -36,11 +36,11 @@ defineProps<{
 
 
 const useGeneral = useGeneralStore();
-const { animate }  = storeToRefs(useGeneral);
-const { paginationNumber }  = storeToRefs(useGeneral);
+const { animate } = storeToRefs(useGeneral);
+const { paginationNumber } = storeToRefs(useGeneral);
 
 
-router.on('finish' , ()=>{
+router.on('finish', () => {
     animate.value = true;
 })
 
@@ -55,8 +55,8 @@ onMounted(() => {
 
 // الـ SSR server يرندر الترجمة لأن الـ i18n plugin محمّل، لكن الـ client يرندر الـ key الخام لأن الـ language file لم يكتمل تحميله وقت الـ hydration — وClientOnly يحل هذا بجعل العنصر يُرندر فقط بعد الـ mount على الـ client.
 const mounted = ref(false)
-onMounted(() => { 
-    mounted.value = true 
+onMounted(() => {
+    mounted.value = true
 })
 
 
@@ -64,22 +64,22 @@ const startLeaveAnimation = () => {
     paginationNumber.value = page.props.paginationNumber as number;
     // paginationNumber.value = usePage().props.paginationNumber; // very important   its prevent call the page twice if we switch to another page  . check this part to move it to another place
     animate.value = false;
-    
+
 };
 
 const current_lang = ref()
-onMounted(()=>{
+onMounted(() => {
     current_lang.value = document
-    .getElementsByTagName('html')[0]
-    .getAttribute('lang');
+        .getElementsByTagName('html')[0]
+        .getAttribute('lang');
 })
 
 
 const menus = ref<NavItem[]>(page.props.menus as NavItem[]);
 
-const removeStart =router.on('finish' , ()=> {
+const removeStart = router.on('finish', () => {
     menus.value = page.props.menus as NavItem[]
-    current_lang.value =   document.getElementsByTagName('html')[0].getAttribute('lang')
+    current_lang.value = document.getElementsByTagName('html')[0].getAttribute('lang')
 
 })
 
@@ -99,7 +99,7 @@ const openCloseSubMenu = (activeMenu: NavItem) => {
         activeMenu.open = !activeMenu.open;
         menus.value.forEach((menu: NavItem) => {
             slideActionName.value = 'accordion';
-            
+
             if (menu.title !== activeMenu.title) {
                 menu.open = false;
             }
@@ -107,7 +107,7 @@ const openCloseSubMenu = (activeMenu: NavItem) => {
     }
 };
 
-router.on('finish' , ()=>{
+router.on('finish', () => {
     handleSidebarMenus()
 })
 
@@ -116,10 +116,10 @@ onMounted(() => {
     handleSidebarMenus()
 });
 
-const handleSidebarMenus = ()=> {
+const handleSidebarMenus = () => {
     menus.value.forEach((menu) => {
         if (menu.hasSubmenu) {
-           ( menu.subMenus as SubMenuItem[]).forEach((submenu: SubMenuItem) => {
+            (menu.subMenus as SubMenuItem[]).forEach((submenu: SubMenuItem) => {
                 if (submenu.isActive) {
                     slideActionName.value = ''; // keep it empty to prevent animation on sidebar menu when clicking on the current page or filter on it
 
@@ -142,121 +142,80 @@ const end = (el: HTMLElement): undefined => {
 
 <template>
     <perfectScrollbar class=" h-full">
-        <SidebarMenu v-if="menus" >
+        <SidebarMenu v-if="menus">
             <SidebarMenuItem v-for="item in menus" :key="item.title">
                 <div v-if="item.hasSubmenu">
-                    <SidebarMenuButton
-                    v-if="item.isVisible"
-                        as-child
-                        :is-active="item.isActive"
+                    <SidebarMenuButton v-if="item.isVisible" as-child :is-active="item.isActive"
                         @click="openCloseSubMenu(item)"
-                        class="border hover:cursor-pointer ltr:bg-linear-to-r rtl:bg-linear-to-l "
-                        :class="
-                            item.isActive
+                        class="border border-white/20 hover:cursor-pointer ltr:bg-linear-to-r rtl:bg-linear-to-l " :class="item.isActive
                                 ? 'to-black/30 dark:to-black/70 hover:to-black/50 dark:from-white/70 dark:via-white/40  dark:hover:from-white/80 dark:hover:via-white/60 dark:text-zinc-900 '
                                 : 'from-black/20 to-black/20 font-normal'
-                        "
-                    >
-                    <div>
-                        <component :is="item.icon" />
-                        <span class="flex justify-between w-full">
-                            <span class="flex gap-3">
-                                 <AppLogoIcon
-                                class="size-5 fill-current text-black/70  "
-                                :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"
-                                />
+                            ">
+                        <div>
+                            <component :is="item.icon" />
+                            <span class="flex justify-between w-full">
+                                <span class="flex gap-3">
+                                    <AppLogoIcon class="size-5 fill-current   "
+                                        />
 
-                                <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
+                                    <span >
 
-                                    <ClientOnly>
-    <span>{{ $t('general.' + item.title) }}</span>
-    <template #fallback>
-        <span>{{ item.title }}</span>
-    </template>
-</ClientOnly>
+                                        <ClientOnly>
+                                            <span>{{ $t('general.' + item.title) }}</span>
+                                            <template #fallback>
+                                                <span>{{ item.title }}</span>
+                                            </template>
+                                        </ClientOnly>
 
+                                    </span>
                                 </span>
-                            </span>
 
-                            <svg
-                                v-if="current_lang == 'ar'" 
-                                :class="{
+                                <svg v-if="current_lang == 'ar'" :class="{
                                     '-rotate-90 ':
                                         item.open,
                                     'rotate-0':
                                         !item.open,
-                                }"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                class="h-4 w-4 transition duration-300 ease-in-out dark:text-white/60"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
-                            <svg
-                                v-else
-                                :class="{
+                                }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="h-4 w-4 transition duration-300 ease-in-out dark:text-white/60">
+                                    <path fill-rule="evenodd"
+                                        d="M7.72 12.53a.75.75 0 010-1.06l7.5-7.5a.75.75 0 111.06 1.06L9.31 12l6.97 6.97a.75.75 0 11-1.06 1.06l-7.5-7.5z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                                <svg v-else :class="{
                                     'rotate-90':
                                         item.open,
                                     'rotate-0':
                                         !item.open,
-                                }"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                class="h-4 w-4 transition duration-300 ease-in-out dark:text-white/60"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
-                                    clip-rule="evenodd"
-                                />
-                            </svg>
-                        </span>
+                                }" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    class="h-4 w-4 transition duration-300 ease-in-out dark:text-white/60">
+                                    <path fill-rule="evenodd"
+                                        d="M16.28 11.47a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 01-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 011.06-1.06l7.5 7.5z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </span>
 
-                    </div>
+                        </div>
                     </SidebarMenuButton>
 
-                    <transition
-                        :name="slideActionName"
-                        @enter="start"
-                        @after-enter="end"
-                        @before-leave="start"
-                        @after-leave="end"
-                    >
-                        <div v-show="item.open " v-if="item?.subMenus?.length" >
+                    <transition :name="slideActionName" @enter="start" @after-enter="end" @before-leave="start"
+                        @after-leave="end">
+                        <div v-show="item.open" v-if="item?.subMenus?.length">
                             <SidebarMenuSub class="dark:bg-transparent">
-                                <SidebarMenuSubItem
-                                    v-for="subItem in item.subMenus"
-                                    :key="subItem.title"
-                                >
-                                    <SidebarMenuSubButton
-                                        as-child
-                                            v-if="item.isVisible"
-
-                                        :is-active="subItem.isActive"
-
+                                <SidebarMenuSubItem v-for="subItem in item.subMenus" :key="subItem.title">
+                                    <SidebarMenuSubButton as-child v-if="item.isVisible" :is-active="subItem.isActive"
                                         @click="startLeaveAnimation"
-                                        class="border hover:cursor-pointer ltr:bg-linear-to-r rtl:bg-linear-to-l "
-                                       :class="
-                            subItem.isActive
-                                ? 'to-black/30 dark:to-black/70  hover:to-black/50 dark:from-white/70 dark:via-white/40  dark:hover:from-white/80 dark:hover:via-white/60 font-bold dark:text-zinc-900 '
-                                : 'from-black/20 to-black/20'
-                        "
-                                    >
-                                        <Link :href="subItem.href"
-                                        
-                                            >
-                                    <ClientOnly>
-    <span>{{ $t('general.' + subItem.title) }}</span>
-    <template #fallback>
-        <span>{{ subItem.title }}</span>
-    </template>
-</ClientOnly>
+                                        class="border border-white/20 hover:cursor-pointer ltr:bg-linear-to-r rtl:bg-linear-to-l "
+                                        :class="subItem.isActive
+                                                ? 'to-black/30 dark:to-black/70  hover:to-black/50 dark:from-white/70 dark:via-white/40  dark:hover:from-white/80 dark:hover:via-white/60 font-bold dark:text-zinc-900 '
+                                                : 'from-black/20 to-black/20'
+                                            ">
+                                        <Link :href="subItem.href">
+                                            <ClientOnly>
+                                                <span>{{ $t('general.' + subItem.title) }}</span>
+                                                <template #fallback>
+                                                    <span>{{ subItem.title }}</span>
+                                                </template>
+                                            </ClientOnly>
 
                                         </Link>
                                     </SidebarMenuSubButton>
@@ -267,39 +226,33 @@ const end = (el: HTMLElement): undefined => {
                 </div>
 
                 <div v-else>
-                    <SidebarMenuButton
-                    v-if="item.isVisible"
-                        as-child
-                        :is-active="item.isActive"
-                        class="border hover:cursor-pointer ltr:bg-linear-to-r rtl:bg-linear-to-l transition-colors"
-                        :class="
-                            item.isActive
+                    <SidebarMenuButton v-if="item.isVisible" as-child :is-active="item.isActive"
+                        class="border border-white/20 hover:cursor-pointer ltr:bg-linear-to-r rtl:bg-linear-to-l transition-colors"
+                        :class="item.isActive
                                 ? 'to-black/30 dark:to-black/70 hover:to-black/50 dark:from-white/70 dark:via-white/40  dark:hover:from-white/80 dark:hover:via-white/60 dark:text-zinc-900 '
                                 : 'from-black/20 to-black/20'
-                        "
-                    >
-                        <Link :href="item.href"  @click="startLeaveAnimation">
+                            ">
+                        <Link :href="item.href" @click="startLeaveAnimation">
                             <component :is="item.icon" />
 
-                        <span class="flex justify-between">
-                                
-                            <span class="flex gap-3">
-                                <AppLogoIcon
-                                class="size-5 fill-current text-black/70  "
-                                :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"
-                                />
-                                
-                                <span :class="item.isActive ? 'dark:text-black/70' : 'dark:text-white/60'"> 
-<ClientOnly>
-    <span>{{ $t('general.' + item.title) }}</span>
-    <template #fallback>
-        <span>{{ item.title }}</span>
-    </template>
-</ClientOnly>                                     </span>
-                            </span>
-                        </span>
+                            <span class="flex justify-between">
 
-                    
+                                <span class="flex gap-3">
+                                    <AppLogoIcon class="size-5 fill-current  "
+                                         />
+
+                                    <span >
+                                        <ClientOnly>
+                                            <span>{{ $t('general.' + item.title) }}</span>
+                                            <template #fallback>
+                                                <span>{{ item.title }}</span>
+                                            </template>
+                                        </ClientOnly>
+                                    </span>
+                                </span>
+                            </span>
+
+
                         </Link>
                     </SidebarMenuButton>
                 </div>
