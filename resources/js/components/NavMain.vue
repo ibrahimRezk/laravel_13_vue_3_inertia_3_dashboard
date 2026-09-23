@@ -141,7 +141,7 @@ const end = (el: HTMLElement): undefined => {
 </script>
 
 <template>
-    <perfectScrollbar class=" h-full">
+    <perfectScrollbar >
         <SidebarMenu v-if="menus">
             <SidebarMenuItem v-for="item in menus" :key="item.title">
                 <div v-if="item.hasSubmenu">
