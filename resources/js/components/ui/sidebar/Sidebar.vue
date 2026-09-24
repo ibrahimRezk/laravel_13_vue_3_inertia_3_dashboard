@@ -72,11 +72,13 @@ const { isMobile, state, openMobile, setOpenMobile, toggleSidebar, triggerClicke
         ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(1)))]'
         : 'group-data-[collapsible=icon]:w-(--sidebar-width-icon)',
     )" />
+
+     <!-- 'fixed inset-y-0 z-50 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex bg-sidebar/0 dark:bg-sidebar-foreground/10 shadow-[4px_0_5px_0_rgba(0,0,0,0.90)]', // check sidebar-foreground -->
     <div :class="cn(
-      'fixed inset-y-0 z-50 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex bg-sidebar/0 dark:bg-sidebar-foreground/10 shadow-[4px_0_5px_0_rgba(0,0,0,0.90)]', // check sidebar-foreground
+      'fixed inset-y-0 z-50 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex bg-sidebar/0 dark:bg-sidebar-foreground/10 ', // check sidebar-foreground
       side === 'left'
-        ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
-        : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
+        ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] shadow-[4px_0_5px_0_rgba(0,0,0,0.90)]'
+        : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] shadow-[-4px_0_5px_0_rgba(0,0,0,0.90)]',
       // Adjust the padding for floating and inset variants.
       variant === 'floating' || variant === 'inset'
         ? 'p- group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(1))+0px)]'
