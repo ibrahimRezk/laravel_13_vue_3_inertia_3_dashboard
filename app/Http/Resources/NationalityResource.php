@@ -34,9 +34,15 @@ class NationalityResource extends JsonResource
                 return $this->created_at->isoFormat('Do MMMM YYYY , h:mm a');
             }),
 
-            'updated_at_formatted' => $this->when($this->updated_at, function () {
-                return $this->updated_at->isoFormat('Do MMMM YYYY , h:mm a');
-            }),
+            'updated_at_formatted' =>
+                $this->when($this->updated_at, function () {
+
+                    if ($this->updated_at != $this->created_at) {
+                        return $this->updated_at->isoFormat('Do MMMM YYYY , h:mm a');
+                    } else {
+                        return '';
+                    }
+                }),
             'used_before' => $this->whenNotNull($this->used_before),
 
 

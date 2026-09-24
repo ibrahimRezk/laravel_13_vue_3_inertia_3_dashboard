@@ -451,7 +451,7 @@ const startLeaveAnimation = () => {
             </template>
             <template v-slot="{ item, index }">
                 <!-- //////////////////////////checked row item///////////////////////// -->
-                <Td light>
+                <Td bold>
                     <Checkbox
                         v-if="item.can.delete"
                         :value="item"
@@ -460,14 +460,14 @@ const startLeaveAnimation = () => {
                     />
                 </Td>
                 <!-- ///////////////////////////////////////////////////// -->
-                <Td light v-show="showColumnItems('#')">
+                <Td bold v-show="showColumnItems('#')">
                     {{ items.meta.from + index }}
                 </Td>
 
-                <Td light v-show="showColumnItems('name')">
-                    <Button variant="linear_orange" size="sm">
+                <Td bold v-show="showColumnItems('name')">
+                    <!-- <Button variant="linear_orange" size="sm"> -->
                         {{ item.name }}
-                    </Button>
+                    <!-- </Button> -->
                 </Td>
 
                 <Td bold v-show="showColumnItems('active')">
@@ -475,7 +475,7 @@ const startLeaveAnimation = () => {
                         :variant="
                             item.active == true ? 'linear_green' : 'linear_red'
                         "
-                        size="sm"
+                        size="xs"
                         class=""
                     >
                         {{
@@ -487,39 +487,38 @@ const startLeaveAnimation = () => {
                 </Td>
 
                 <Td bold v-show="showColumnItems('added by')">
-                    <Button variant="linear_blue" size="sm" class="">
+                    <!-- <Button variant="linear_blue" size="sm" class=""> -->
                         {{ item.added_by_user?.name }}
-                    </Button>
+                    <!-- </Button> -->
                 </Td>
                 <Td bold v-show="showColumnItems('updated by')">
-                    <Button
+                    <!-- <Button
                         v-if="item.updated_by_user"
                         variant="linear_green"
                         size="sm"
                         class=""
-                    >
+                    > -->
                         {{ item.updated_by_user?.name }}
-                    </Button>
+                    <!-- </Button> -->
                 </Td>
 
                 <Td bold v-show="showColumnItems('created at')">
-                    <Button variant="linear_yellow" size="sm">
+                    <!-- <Button variant="linear_white" size="sm"> -->
                         {{ item.created_at_formatted }}
-                    </Button>
+                    <!-- </Button> -->
 
                     <!-- {{  new Date(item.created_at).toLocaleString() }} -->
                 </Td>
                 <Td bold v-show="showColumnItems('updated at')">
-                    <Button
+                    <!-- <Button
                         v-if="
-                            item.created_at_formatted !=
-                            item.updated_at_formatted
+                            item.updated_at_formatted != ''
                         "
-                        variant="linear_orange"
-                        size="sm"
-                    >
+                        variant="linear_black"
+                        size="xs"
+                    >  -->
                         {{ item.updated_at_formatted }}
-                    </Button>
+                    <!-- </Button>  -->
 
                     <!-- {{  new Date(item.created_at).toLocaleString() }} -->
                 </Td>

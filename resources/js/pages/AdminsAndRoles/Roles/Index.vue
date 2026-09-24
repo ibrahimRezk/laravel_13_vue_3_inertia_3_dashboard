@@ -501,20 +501,20 @@ const startLeaveAnimation = () => {
                 <template v-slot="{ item, index }">
 
 
-                    <Td light v-show="showColumnItems('#')">
+                    <Td bold v-show="showColumnItems('#')">
                         {{ items.meta.from + index }}
                     </Td>
 
-                    <Td light v-show="showColumnItems('name')">
-                        <Button variant="linear_white"  size="sm" >
+                    <Td bold v-show="showColumnItems('name')">
+                        <!-- <Button variant="linear_white"  size="sm" > -->
                             {{ item.slug }}
-                        </Button>
+                        <!-- </Button> -->
                     </Td>
 
                     <Td bold v-show="showColumnItems('created_at')">
-                        <Button variant="linear_yellow" size="sm">
+                        <!-- <Button variant="linear_yellow" size="sm"> -->
                             {{ item.created_at_formatted }}
-                        </Button>
+                        <!-- </Button> -->
                     </Td>
 
                     <!-- :edit-link="

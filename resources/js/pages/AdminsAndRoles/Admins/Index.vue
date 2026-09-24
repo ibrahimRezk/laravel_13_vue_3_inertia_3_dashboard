@@ -533,18 +533,18 @@ const startLeaveAnimation = () => {
                         />
                     </Td>
                     <!-- ///////////////////////////////////////////////////// -->
-                    <Td light v-show="showColumnItems('#')">
+                    <Td bold v-show="showColumnItems('#')">
                         {{ items.meta.from + index }}
                     </Td>
 
-                    <Td light v-show="showColumnItems('name')">
-                        <Button variant="linear_white" size="sm">
+                    <Td bold v-show="showColumnItems('name')">
+                        <!-- <Button variant="linear_white" size="sm"> -->
                             {{ item.name }}
-                        </Button>
+                        <!-- </Button> -->
                     </Td>
 
                     <Td bold v-show="showColumnItems('active')">
-                        <Button :variant="activeColor(item)" size="sm">
+                        <Button :variant="activeColor(item)" size="xs">
                             {{
                                 item.active == 1
                                     ? $t('general.yes')
@@ -560,16 +560,16 @@ const startLeaveAnimation = () => {
                     </Td>
 
                     <Td bold v-show="showColumnItems('created at')">
-                        <Button variant="linear_yellow" size="sm">
+                        <!-- <Button variant="linear_yellow" size="sm"> -->
                             {{ item.created_at_formatted }}
-                        </Button>
+                        <!-- </Button> -->
 
                         <!-- {{  new Date(item.created_at).toLocaleString() }} -->
                     </Td>
                     <Td bold v-show="showColumnItems('updated_at')">
-                        <Button variant="linear_orange" size="sm">
+                        <!-- <Button variant="linear_orange" size="sm"> -->
                             {{ item.updated_at_formatted }}
-                        </Button>
+                        <!-- </Button> -->
 
                         <!-- {{  new Date(item.created_at).toLocaleString() }} -->
                     </Td>

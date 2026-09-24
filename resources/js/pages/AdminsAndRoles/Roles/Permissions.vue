@@ -335,11 +335,11 @@ const checkboxClasses = computed(() => {
             <!-- //////////////////////////checked row item///////////////////////// -->
 
             <!-- ///////////////////////////////////////////////////// -->
-            <Td light>
+            <Td bold>
                 {{ index + 1 }}
             </Td>
 
-            <Td light>
+            <Td bold>
                 <div class="flex min-w-36">
                     {{ item.name }}
                 </div>
