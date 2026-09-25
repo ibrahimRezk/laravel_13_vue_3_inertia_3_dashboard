@@ -476,7 +476,7 @@ const startLeaveAnimation = () => {
                             item.active == true ? 'linear_green' : 'linear_red'
                         "
                         size="xs"
-                        class=""
+                        class=" rounded-full w-10"
                     >
                         {{
                             item.active == true

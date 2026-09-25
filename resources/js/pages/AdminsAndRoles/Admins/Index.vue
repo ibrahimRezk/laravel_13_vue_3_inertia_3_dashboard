@@ -544,7 +544,7 @@ const startLeaveAnimation = () => {
                     </Td>
 
                     <Td bold v-show="showColumnItems('active')">
-                        <Button :variant="activeColor(item)" size="xs">
+                        <Button :variant="activeColor(item)" size="xs" class="rounded-full  w-10">
                             {{
                                 item.active == 1
                                     ? $t('general.yes')
