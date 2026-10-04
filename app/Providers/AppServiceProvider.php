@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
-use App\Models\Role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Lang;
@@ -112,11 +111,10 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        $superAdmin = Role::first();
-        
-        Gate::before(function ($user, $ability)use($superAdmin) {
-            return $user->hasRole($superAdmin->name) ? true : null;
-            // return $user->hasRole('Super Admin') ? true : null;
+        // Resolved lazily inside the callback: querying the database here would run
+        // during application boot, before migrations have created the roles table.
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Super Admin') ? true : null;
         });
 
 

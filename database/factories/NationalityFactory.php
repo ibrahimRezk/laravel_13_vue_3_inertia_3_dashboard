@@ -2,19 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Nationality;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<Nationality>
  */
 class NationalityFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
-    protected static ?string $password;
-
     /**
      * Define the model's default state.
      *
@@ -22,12 +18,40 @@ class NationalityFactory extends Factory
      */
     public function definition(): array
     {
-        $data['name']['en'] = fake('english')->name() ;
-        $data['name']['ar'] = fake('arabic')->name() ;
-        $data['active'] =  random_int(0,1) ;
-        $data['added_by'] = 1 ;
-      
-        return $data;
+        return [
+            'name' => [
+                'en' => fake('english')->name(),
+                'ar' => fake('arabic')->name(),
+            ],
+            'active' => fake()->boolean(),
+            'date' => now()->toDateString(),
+            // Resolved to a real user id by the factory; kept out of the seeder's
+            // hard-coded id 1 so tests can create nationalities in isolation.
+            'added_by' => User::factory(),
+        ];
     }
 
+    /**
+     * Indicate that the nationality is active.
+     */
+    public function active(): static
+    {
+        return $this->state(fn (array $attributes) => ['active' => true]);
+    }
+
+    /**
+     * Indicate that the nationality is inactive.
+     */
+    public function inActive(): static
+    {
+        return $this->state(fn (array $attributes) => ['active' => false]);
+    }
+
+    /**
+     * Indicate that the nationality has already been used on the system.
+     */
+    public function usedBefore(): static
+    {
+        return $this->state(fn (array $attributes) => ['used_before' => true]);
+    }
 }

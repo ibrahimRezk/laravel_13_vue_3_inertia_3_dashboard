@@ -22,6 +22,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
+        "heyosseus/sloppy": "*",
         "laravel/pail": "^1.2.5",
         "laravel/pint": "^1.27",
         "laravel/sail": "^1.53",
@@ -73,6 +74,10 @@
         "test": [
             "@php artisan config:clear --ansi",
             "@lint:check",
+            "@php artisan test"
+        ],
+        "test:only": [
+            "@php artisan config:clear --ansi",
             "@php artisan test"
         ],
         "post-autoload-dump": [
